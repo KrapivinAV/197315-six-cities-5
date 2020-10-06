@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import Main from "../main/main";
-import LoginScreen from "../login-screen/login-screen";
-import FavoritesScreen from "../favorites-screen/favorites-screen";
-import PropertiesScreen from "../properties-screen/properties-screen";
+import Main from "../../../src/components/main/main";
+import LoginScreen from "../../../src/components/login-screen/login-screen";
+import FavoritesScreen from "../../../src/components/favorites-screen/favorites-screen";
+import PropertiesScreen from "../../../src/components/properties-screen/properties-screen";
 
 const App = (props) => {
   const {offersCount} = props;
