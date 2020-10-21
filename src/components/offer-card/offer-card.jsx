@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
-import Link from "react-router-dom";
+import {Link} from "react-router-dom";
 
-const OfferCard = ({offer}) => {
-  const {title, premium, type, rating, price, photos} = offer;
+const OfferCard = ({key, offer, onCardHover}) => {
+  const {id, title, premium, type, rating, price, photos} = offer;
   const naturalRating = `${Math.round(rating) * 20}%`;
   const premiumType = premium ?
     (
@@ -15,13 +16,15 @@ const OfferCard = ({offer}) => {
 
   return (
     <article
+      key={key}
       className="cities__place-card place-card"
-      mouseover>
+      mouseover={onCardHover}
+    >
       {premiumType}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to="/offer/:id?">
+        <a href="#">
           <img className="place-card__image" src={photos[0]} width="260" height="200" alt="Place image"/>
-        </Link>
+        </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -43,7 +46,7 @@ const OfferCard = ({offer}) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="/offer/:id?">
+          <Link to={`/offer/${id}`}>
             {title}
           </Link>
         </h2>
@@ -54,7 +57,10 @@ const OfferCard = ({offer}) => {
 };
 
 OfferCard.propTypes = {
-  offer: PropTypesSet.offer
+  key: PropTypes.string.isRequired,
+  offer: PropTypesSet.offer,
+  onCardHover: PropTypes.func.isRequired,
+  onCardNameClick: PropTypes.func.isRequired
 };
 
 export default OfferCard;
