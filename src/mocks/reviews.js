@@ -3,7 +3,7 @@ export default [
     {
       avatar: `/img/avatar-max.jpg`,
       name: `Max`,
-      rating: 2,
+      rating: 1,
       date: new Date(2019, 1),
       text: `Aenean et molestie nulla. Aenean eleifend ipsum quam, id laoreet mi auctor vitae. Nulla facilisis, quam eget vulputate efficitur, leo sapien hendrerit ipsum, sit amet bibendum magna elit vitae velit. Mauris et est quis tortor tincidunt pellentesque in id lacus. Nullam tempus rhoncus magna, a finibus neque consequat vel. Maecenas ultrices mollis enim eu porta. Proin ullamcorper tristique urna, vel dictum lorem. Sed rhoncus, ex ac elementum tempor, velit elit ullamcorper tortor, sed fringilla magna dui nec purus. Ut eget gravida tellus. Quisque placerat nisi eu neque sollicitudin fringilla.`
     },

@@ -17,9 +17,8 @@ class OfferList extends PureComponent {
 
     const onCardHover = (evt) => {
       this.setState({
-        card: evt.target
+        card: evt.currentTarget
       });
-      console.log(evt.target);
     };
 
     return (
@@ -51,13 +50,13 @@ class OfferList extends PureComponent {
             </form>
             <div className="cities__places-list places__list tabs__content">
 
-              {offers.map((offer) => {
-                return <OfferCard
+              {offers.map((offer) => (
+                <OfferCard
                   key={offer.id}
                   offer={offer}
                   onCardHover={onCardHover}
-                />;
-              })}
+                />
+              ))}
 
             </div>
           </section>

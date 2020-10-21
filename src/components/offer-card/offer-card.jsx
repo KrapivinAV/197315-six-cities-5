@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
 
-const OfferCard = ({key, offer, onCardHover}) => {
+const OfferCard = ({offer, onCardHover}) => {
   const {id, title, premium, type, rating, price, photos} = offer;
   const naturalRating = `${Math.round(rating) * 20}%`;
   const premiumType = premium ?
@@ -16,11 +16,12 @@ const OfferCard = ({key, offer, onCardHover}) => {
 
   return (
     <article
-      key={key}
       className="cities__place-card place-card"
-      mouseover={onCardHover}
+      onMouseOver={onCardHover}
     >
+
       {premiumType}
+
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img className="place-card__image" src={photos[0]} width="260" height="200" alt="Place image"/>
@@ -57,10 +58,8 @@ const OfferCard = ({key, offer, onCardHover}) => {
 };
 
 OfferCard.propTypes = {
-  key: PropTypes.string.isRequired,
   offer: PropTypesSet.offer,
   onCardHover: PropTypes.func.isRequired,
-  onCardNameClick: PropTypes.func.isRequired
 };
 
 export default OfferCard;

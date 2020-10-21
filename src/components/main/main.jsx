@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
+import OfferList from "../offer-list/offer-list";
 
 const Main = (props) => {
   const {offers} = props;
@@ -70,7 +71,7 @@ const Main = (props) => {
           </section>
         </div>
 
-        {/* блок предложений */}
+        <OfferList offers={offers} />
 
       </main>
     </div>

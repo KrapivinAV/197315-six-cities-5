@@ -31,7 +31,6 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  offersCount: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired
 };
