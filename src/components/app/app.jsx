@@ -22,9 +22,14 @@ const App = (props) => {
         <Route exact path="/favorites">
           <FavoritesScreen offer={offers[0]}/>
         </Route>
-        <Route exact path="/offer/:id?">
-          <PropertiesScreen offer={offers[0]} review={reviews[0]}/>
-        </Route>
+        <Route
+          exact
+          path="/offer/:id?"
+          render={({location}) => {
+
+            return <PropertiesScreen offer={offers[0]} review={reviews[0]}/>;
+          }}
+        />
       </Switch>
     </BrowserRouter>
   );

@@ -20,10 +20,13 @@ export default {
     })
   }),
   review: PropTypes.arrayOf(PropTypes.shape({
-    avatar: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    date: PropTypes.instanceOf(Date).isRequired,
-    text: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    offerReviews: PropTypes.arrayOf(PropTypes.shape({
+      avatar: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      rating: PropTypes.number.isRequired,
+      date: PropTypes.instanceOf(Date).isRequired,
+      text: PropTypes.string.isRequired
+    }))
   }))
 };

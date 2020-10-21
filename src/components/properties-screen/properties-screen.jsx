@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react";
+import moment from "moment";
 import PropTypesSet from "../../prop-types-set";
 
 class PropertiesScreen extends PureComponent {
@@ -14,6 +15,7 @@ class PropertiesScreen extends PureComponent {
     const {offer, review} = this.props;
 
     const {title, premium, type, rating, price, photos, bedroomsQuantity, maxAdultsQuantity, inside, owner, description} = offer;
+    const {offerReviews} = review;
     const naturalRating = `${Math.round(rating) * 20}%`;
     const premiumType = premium ?
       (
@@ -130,28 +132,32 @@ class PropertiesScreen extends PureComponent {
                 <section className="property__reviews reviews">
                   <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
                   <ul className="reviews__list">
-                    <li className="reviews__item">
-                      <div className="reviews__user user">
-                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                          <img className="reviews__avatar user__avatar" src="/img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
-                        </div>
-                        <span className="reviews__user-name">
-                          Max
-                        </span>
-                      </div>
-                      <div className="reviews__info">
-                        <div className="reviews__rating rating">
-                          <div className="reviews__stars rating__stars">
-                            <span style={{width: `80%`}}></span>
-                            <span className="visually-hidden">Rating</span>
+
+                    {offerReviews.map((item) => (
+                      <li key={item.date} className="reviews__item">
+                        <div className="reviews__user user">
+                          <div className="reviews__avatar-wrapper user__avatar-wrapper">
+                            <img className="reviews__avatar user__avatar" src={item.avatar} width="54" height="54" alt="Reviews avatar" />
                           </div>
+                          <span className="reviews__user-name">
+                            {item.name}
+                          </span>
                         </div>
-                        <p className="reviews__text">
-                          A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                        </p>
-                        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                      </div>
-                    </li>
+                        <div className="reviews__info">
+                          <div className="reviews__rating rating">
+                            <div className="reviews__stars rating__stars">
+                              <span style={{width: `${+item.rating * 20}%`}}></span>
+                              <span className="visually-hidden">Rating</span>
+                            </div>
+                          </div>
+                          <p className="reviews__text">
+                            {item.text}
+                          </p>
+                          <time className="reviews__time" dateTime="2019-04-24">{moment(item.date).format(`MMMM YYYY`)}</time>
+                        </div>
+                      </li>
+                    ))}
+
                   </ul>
                   <form className="reviews__form form" action="#" method="post">
                     <label className="reviews__label form__label" htmlFor="review">Your review</label>
