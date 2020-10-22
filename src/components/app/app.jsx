@@ -7,6 +7,8 @@ import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
 import PropertiesScreen from "../properties-screen/properties-screen";
 
+const ID_INDEX = 7;
+
 const App = (props) => {
   const {offers, reviews} = props;
 
@@ -20,14 +22,17 @@ const App = (props) => {
           <LoginScreen />
         </Route>
         <Route exact path="/favorites">
-          <FavoritesScreen offer={offers[0]}/>
+          <FavoritesScreen offer={offers}/>
         </Route>
         <Route
           exact
-          path="/offer/:id?"
+          path="/offer/:id"
           render={({location}) => {
+            const id = location.pathname.slice(ID_INDEX);
+            const selectedOffer = offers.filter((item) => item.id === id);
+            const selectedReview = reviews.filter((item) => item.id === id);
 
-            return <PropertiesScreen offer={offers[0]} review={reviews[0]}/>;
+            return <PropertiesScreen offer={selectedOffer[0]} review={selectedReview}/>;
           }}
         />
       </Switch>

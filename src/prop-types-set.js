@@ -19,7 +19,7 @@ export default {
       super: PropTypes.bool.isRequired
     })
   }),
-  review: PropTypes.arrayOf(PropTypes.shape({
+  review: PropTypes.shape({
     id: PropTypes.string.isRequired,
     offerReviews: PropTypes.arrayOf(PropTypes.shape({
       avatar: PropTypes.string.isRequired,
@@ -28,5 +28,5 @@ export default {
       date: PropTypes.instanceOf(Date).isRequired,
       text: PropTypes.string.isRequired
     }))
-  }))
+  })
 };

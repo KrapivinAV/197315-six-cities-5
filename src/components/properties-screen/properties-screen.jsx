@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react";
 import moment from "moment";
+import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 
 class PropertiesScreen extends PureComponent {
@@ -15,7 +16,7 @@ class PropertiesScreen extends PureComponent {
     const {offer, review} = this.props;
 
     const {title, premium, type, rating, price, photos, bedroomsQuantity, maxAdultsQuantity, inside, owner, description} = offer;
-    const {offerReviews} = review;
+    const {offerReviews} = review[0];
     const naturalRating = `${Math.round(rating) * 20}%`;
     const premiumType = premium ?
       (
@@ -81,10 +82,10 @@ class PropertiesScreen extends PureComponent {
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
-                    <span style={{width: {naturalRating}}}></span>
+                    <span style={{width: naturalRating}}></span>
                     <span className="visually-hidden">Rating</span>
                   </div>
-                  <span className="property__rating-value rating__value">{rating}</span>
+                  <span className="property__rating-value rating__value">{rating.toFixed(1)}</span>
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
@@ -320,7 +321,7 @@ class PropertiesScreen extends PureComponent {
 
 PropertiesScreen.propTypes = {
   offer: PropTypesSet.offer.isRequired,
-  review: PropTypesSet.review.isRequired
+  review: PropTypes.arrayOf(PropTypesSet.review).isRequired
 };
 
 export default PropertiesScreen;
