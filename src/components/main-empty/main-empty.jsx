@@ -1,10 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import PropTypesSet from "../../prop-types-set";
-import OfferList from "../offer-list/offer-list";
 
-const Main = (props) => {
-  const {offers} = props;
+const MainEmpty = () => {
 
   return (
     <div className="page page--gray page--main">
@@ -13,7 +9,7 @@ const Main = (props) => {
           <div className="header__wrapper">
             <div className="header__left">
               <a className="header__logo-link header__logo-link--active">
-                <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
             <nav className="header__nav">
@@ -31,7 +27,7 @@ const Main = (props) => {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className="page__main page__main--index page__main--index-empty">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -52,7 +48,7 @@ const Main = (props) => {
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
+                <a className="locations__item-link tabs__item">
                   <span>Amsterdam</span>
                 </a>
               </li>
@@ -62,23 +58,27 @@ const Main = (props) => {
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <a className="locations__item-link tabs__item tabs__item--active" href="#">
                   <span>Dusseldorf</span>
                 </a>
               </li>
             </ul>
           </section>
         </div>
-
-        <OfferList offers={offers} />
-
+        <div className="cities">
+          <div className="cities__places-container cities__places-container--empty container">
+            <section className="cities__no-places">
+              <div className="cities__status-wrapper tabs__content">
+                <b className="cities__status">No places to stay available</b>
+                <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
+              </div>
+            </section>
+            <div className="cities__right-section"></div>
+          </div>
+        </div>
       </main>
     </div>
   );
 };
 
-Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
-};
-
-export default Main;
+export default MainEmpty;
