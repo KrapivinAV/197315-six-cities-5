@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react";
+import {Link} from "react-router-dom";
 import moment from "moment";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
@@ -13,11 +14,12 @@ class PropertiesScreen extends PureComponent {
   }
 
   render() {
-    const {offer, review} = this.props;
-
-    const {title, premium, type, rating, price, photos, bedroomsQuantity, maxAdultsQuantity, inside, owner, description} = offer;
+    const {offer, review, loggedInStatus} = this.props;
+    const {title, premium, isFavorite, type, rating, price, photos, bedroomsQuantity, maxAdultsQuantity, inside, owner, description} = offer;
     const {offerReviews} = review[0];
+
     const naturalRating = `${Math.round(rating) * 20}%`;
+
     const premiumType = premium ?
       (
         <div className="property__mark">
@@ -25,6 +27,10 @@ class PropertiesScreen extends PureComponent {
         </div>
       ) :
       null;
+
+    const favoriteButtonStyle = isFavorite ?
+      `property__bookmark-button property__bookmark-button--active button` :
+      `property__bookmark-button button`;
 
     return (
       <div className="page">
@@ -39,11 +45,11 @@ class PropertiesScreen extends PureComponent {
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
-                    <a className="header__nav-link header__nav-link--profile" href="#">
+                    <Link to={loggedInStatus ? `/favorites` : `/login`} className="header__nav-link header__nav-link--profile">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    </a>
+                      <span className="header__user-name user__name">{loggedInStatus ? `Oliver.conner@gmail.com` : `Sign in`}</span>
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -73,7 +79,7 @@ class PropertiesScreen extends PureComponent {
                   <h1 className="property__name">
                     {title}
                   </h1>
-                  <button className="property__bookmark-button button" type="button">
+                  <button className={favoriteButtonStyle} type="button">
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
@@ -321,7 +327,8 @@ class PropertiesScreen extends PureComponent {
 
 PropertiesScreen.propTypes = {
   offer: PropTypesSet.offer.isRequired,
-  review: PropTypes.arrayOf(PropTypesSet.review).isRequired
+  review: PropTypes.arrayOf(PropTypesSet.review).isRequired,
+  loggedInStatus: PropTypes.bool.isRequired,
 };
 
 export default PropertiesScreen;

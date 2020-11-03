@@ -4,8 +4,9 @@ import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
 
 const OfferCard = ({offer, onCardHover}) => {
-  const {id, title, premium, type, rating, price, photos} = offer;
+  const {id, title, premium, isFavorite, type, rating, price, photos} = offer;
   const naturalRating = `${Math.round(rating) * 20}%`;
+
   const premiumType = premium ?
     (
       <div className="place-card__mark">
@@ -13,6 +14,10 @@ const OfferCard = ({offer, onCardHover}) => {
       </div>
     ) :
     null;
+
+  const favoriteButtonStyle = isFavorite ?
+    `place-card__bookmark-button place-card__bookmark-button--active button` :
+    `place-card__bookmark-button button`;
 
   return (
     <article
@@ -33,7 +38,7 @@ const OfferCard = ({offer, onCardHover}) => {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button className={favoriteButtonStyle} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

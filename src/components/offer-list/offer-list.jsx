@@ -10,16 +10,18 @@ class OfferList extends PureComponent {
     this.state = {
       card: null
     };
+
+    this.handleCardHover = this.handleCardHover.bind(this);
+  }
+
+  handleCardHover(evt) {
+    this.setState({
+      card: evt.currentTarget
+    });
   }
 
   render() {
     const {offers} = this.props;
-
-    const onCardHover = (evt) => {
-      this.setState({
-        card: evt.currentTarget
-      });
-    };
 
     return (
       <div className="cities">
@@ -54,7 +56,7 @@ class OfferList extends PureComponent {
                 <OfferCard
                   key={offer.id}
                   offer={offer}
-                  onCardHover={onCardHover}
+                  onCardHover={this.handleCardHover}
                 />
               ))}
 

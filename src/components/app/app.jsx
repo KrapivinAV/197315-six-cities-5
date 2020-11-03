@@ -17,6 +17,14 @@ class App extends PureComponent {
     this.state = {
       loggedIn: false
     };
+
+    this.handleLoggedIn = this.handleLoggedIn.bind(this);
+  }
+
+  handleLoggedIn() {
+    this.setState({
+      loggedIn: true
+    });
   }
 
   render() {
@@ -27,13 +35,13 @@ class App extends PureComponent {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            {offers && offers.length !== 0 ? <Main offers={offers} /> : <Redirect to="/no-offers" />}
+            {offers && offers.length !== 0 ? <Main offers={offers} loggedInStatus={loggedIn}/> : <Redirect to="/no-offers" />}
           </Route>
           <Route exact path="/no-offers">
-            <MainEmpty />
+            <MainEmpty loggedInStatus={loggedIn} />
           </Route>
           <Route exact path="/login">
-            <LoginScreen />
+            {loggedIn ? <Redirect to="/" /> : <LoginScreen onLoggedIn={this.handleLoggedIn}/>}
           </Route>
           <Route exact path="/favorites">
             {loggedIn ? <FavoritesScreen offer={offers} /> : <Redirect to="/login" />}
@@ -46,7 +54,7 @@ class App extends PureComponent {
               const selectedOffer = offers.filter((item) => item.id === id);
               const selectedReview = reviews.filter((item) => item.id === id);
 
-              return <PropertiesScreen offer={selectedOffer[0]} review={selectedReview}/>;
+              return <PropertiesScreen offer={selectedOffer[0]} review={selectedReview} loggedInStatus={loggedIn}/>;
             }}
           />
         </Switch>

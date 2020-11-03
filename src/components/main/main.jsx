@@ -1,10 +1,11 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import OfferList from "../offer-list/offer-list";
 
 const Main = (props) => {
-  const {offers} = props;
+  const {offers, loggedInStatus} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -19,11 +20,11 @@ const Main = (props) => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link to={loggedInStatus ? `/favorites` : `/login`} className="header__nav-link header__nav-link--profile">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
+                    <span className="header__user-name user__name">{loggedInStatus ? `Oliver.conner@gmail.com` : `Sign in`}</span>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -79,6 +80,7 @@ const Main = (props) => {
 
 Main.propTypes = {
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  loggedInStatus: PropTypes.bool.isRequired,
 };
 
 export default Main;
