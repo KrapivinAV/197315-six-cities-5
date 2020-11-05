@@ -44,7 +44,7 @@ class App extends PureComponent {
             {loggedIn ? <Redirect to="/" /> : <LoginScreen onLoggedIn={this.handleLoggedIn}/>}
           </Route>
           <Route exact path="/favorites">
-            {loggedIn ? <FavoritesScreen offer={offers} /> : <Redirect to="/login" />}
+            {loggedIn ? <FavoritesScreen offers={offers} /> : <Redirect to="/login" />}
           </Route>
           <Route
             exact

@@ -12,6 +12,12 @@ class PropertiesScreen extends PureComponent {
     this.state = {
       card: null
     };
+
+    this.handleCommentFormSubmit = this.handleCommentFormSubmit.bind(this);
+  }
+
+  handleCommentFormSubmit() {
+    alert(`Надо пробросить добавление коментария до index.js и далее на сервер`);
   }
 
   render() {
@@ -168,7 +174,7 @@ class PropertiesScreen extends PureComponent {
 
                   </ul>
 
-                  {loggedInStatus ? <CommentForm /> : null}
+                  {loggedInStatus ? <CommentForm onCommentFormSubmit={this.handleCommentFormSubmit}/> : null}
 
                 </section>
               </div>
