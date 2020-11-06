@@ -17,7 +17,6 @@ class PropertiesScreen extends PureComponent {
   }
 
   handleCommentFormSubmit() {
-    alert(`Надо пробросить добавление коментария до index.js и далее на сервер`);
   }
 
   render() {
