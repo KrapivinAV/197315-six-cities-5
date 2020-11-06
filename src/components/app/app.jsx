@@ -1,36 +1,71 @@
-import React from "react";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import PropTypesSet from "../../prop-types-set";
+import {Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
 import Main from "../main/main";
+import MainEmpty from "../main-empty/main-empty";
 import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
 import PropertiesScreen from "../properties-screen/properties-screen";
 
-const App = (props) => {
-  const {offersCount} = props;
+const ID_INDEX = 7;
 
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <Main offersCount={offersCount} />
-        </Route>
-        <Route exact path="/login">
-          <LoginScreen />
-        </Route>
-        <Route exact path="/favorites">
-          <FavoritesScreen />
-        </Route>
-        <Route exact path="/offer/:id?">
-          <PropertiesScreen />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  );
-};
+class App extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loggedIn: false
+    };
+
+    this.handleLoggedIn = this.handleLoggedIn.bind(this);
+  }
+
+  handleLoggedIn() {
+    this.setState({
+      loggedIn: true
+    });
+  }
+
+  render() {
+    const {offers, reviews} = this.props;
+    const {loggedIn} = this.state;
+
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            {offers && offers.length !== 0 ? <Main offers={offers} loggedInStatus={loggedIn}/> : <Redirect to="/no-offers" />}
+          </Route>
+          <Route exact path="/no-offers">
+            <MainEmpty loggedInStatus={loggedIn} />
+          </Route>
+          <Route exact path="/login">
+            {loggedIn ? <Redirect to="/" /> : <LoginScreen onLoggedIn={this.handleLoggedIn}/>}
+          </Route>
+          <Route exact path="/favorites">
+            {loggedIn ? <FavoritesScreen offers={offers} /> : <Redirect to="/login" />}
+          </Route>
+          <Route
+            exact
+            path="/offer/:id"
+            render={({location}) => {
+              const id = location.pathname.slice(ID_INDEX);
+              const selectedOffer = offers.filter((item) => item.id === id);
+              const selectedReview = reviews.filter((item) => item.id === id);
+
+              return <PropertiesScreen offer={selectedOffer[0]} review={selectedReview} loggedInStatus={loggedIn}/>;
+            }}
+          />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
+}
 
 App.propTypes = {
-  offersCount: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired
 };
 
 export default App;
