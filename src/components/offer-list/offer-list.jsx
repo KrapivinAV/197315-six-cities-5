@@ -2,6 +2,7 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import OfferCard from "../offer-card/offer-card";
+import Map from "../map/map";
 import {sorter} from "../../utils/offer-sorter";
 
 class OfferList extends PureComponent {
@@ -63,7 +64,9 @@ class OfferList extends PureComponent {
             </div>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <section className="cities__map map">
+              <Map offers={offers}/>
+            </section>
           </div>
         </div>
       </div>
