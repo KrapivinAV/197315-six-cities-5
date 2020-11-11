@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import CommentForm from "../comment-form/comment-form";
 import ReviewsList from "../reviews-list/reviews-list";
+import Map from "../map/map";
 
 class PropertiesScreen extends PureComponent {
   constructor(props) {
@@ -20,7 +21,7 @@ class PropertiesScreen extends PureComponent {
   }
 
   render() {
-    const {offer, review, loggedInStatus} = this.props;
+    const {offer, offers, review, loggedInStatus} = this.props;
     const {title, premium, isFavorite, type, rating, price, photos, bedroomsQuantity, maxAdultsQuantity, inside, owner, description} = offer;
     const {offerReviews} = review[0];
 
@@ -152,7 +153,11 @@ class PropertiesScreen extends PureComponent {
                 </section>
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map">
+
+              <Map offers={offers}/>
+
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">
@@ -264,6 +269,7 @@ class PropertiesScreen extends PureComponent {
 
 PropertiesScreen.propTypes = {
   offer: PropTypesSet.offer.isRequired,
+  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   review: PropTypes.arrayOf(PropTypesSet.review).isRequired,
   loggedInStatus: PropTypes.bool.isRequired,
 };

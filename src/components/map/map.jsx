@@ -18,7 +18,7 @@ class Map extends Component {
     const zoom = 12;
 
     const icon = leaflet.icon({
-      iconUrl: `img/pin.svg`,
+      iconUrl: `/img/pin.svg`,
       iconSize: [30, 30]
     });
 
