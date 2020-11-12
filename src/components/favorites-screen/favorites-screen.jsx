@@ -1,11 +1,10 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
-import {Link} from "react-router-dom";
+import FavoritesScreenOfferList from "../favorites-screen-offer-list/favorites-screen-offer-list";
 
-const FavoritesScreen = (props) => {
-  const {offers} = props;
-
+const FavoritesScreen = ({offers}) => {
   const favoriteOffers = offers.filter((item) => item.isFavorite === true);
 
   return (
@@ -46,45 +45,9 @@ const FavoritesScreen = (props) => {
                     </a>
                   </div>
                 </div>
-                <div className="favorites__places">
 
-                  {favoriteOffers.map((offer) => (
-                    <article key={offer.id} className="favorites__card place-card">
-                      <div className="favorites__image-wrapper place-card__image-wrapper">
-                        <a href="#">
-                          <img className="place-card__image" src={offer.photos[0]} width="150" height="110" alt="Place image" />
-                        </a>
-                      </div>
-                      <div className="favorites__card-info place-card__info">
-                        <div className="place-card__price-wrapper">
-                          <div className="place-card__price">
-                            <b className="place-card__price-value">&euro;{offer.price}</b>
-                            <span className="place-card__price-text">&#47;&nbsp;night</span>
-                          </div>
-                          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-                            <svg className="place-card__bookmark-icon" width="18" height="19">
-                              <use xlinkHref="#icon-bookmark"></use>
-                            </svg>
-                            <span className="visually-hidden">In bookmarks</span>
-                          </button>
-                        </div>
-                        <div className="place-card__rating rating">
-                          <div className="place-card__stars rating__stars">
-                            <span style={{width: `${Math.round(offer.rating) * 20}%`}}></span>
-                            <span className="visually-hidden">Rating</span>
-                          </div>
-                        </div>
-                        <h2 className="place-card__name">
-                          <Link to={`/offer/${offer.id}`}>
-                            {offer.title}
-                          </Link>
-                        </h2>
-                        <p className="place-card__type">Private room</p>
-                      </div>
-                    </article>
-                  ))}
+                <FavoritesScreenOfferList offers={favoriteOffers} />
 
-                </div>
               </li>
             </ul>
           </section>
@@ -102,6 +65,5 @@ const FavoritesScreen = (props) => {
 FavoritesScreen.propTypes = {
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
 };
-
 
 export default FavoritesScreen;
