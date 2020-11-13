@@ -54,7 +54,7 @@ class App extends PureComponent {
               const selectedOffer = offers.filter((item) => item.id === id);
               const selectedReview = reviews.filter((item) => item.id === id);
 
-              return <PropertiesScreen offer={selectedOffer[0]} review={selectedReview} loggedInStatus={loggedIn}/>;
+              return <PropertiesScreen offer={selectedOffer[0]} offers={offers} review={selectedReview} loggedInStatus={loggedIn}/>;
             }}
           />
         </Switch>
