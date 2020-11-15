@@ -5,7 +5,6 @@ import PropTypesSet from "../../prop-types-set";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 
-
 class Map extends Component {
   constructor(props) {
     super(props);
