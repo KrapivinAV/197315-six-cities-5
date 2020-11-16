@@ -160,13 +160,13 @@ export default [
       super: true
     },
     location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198
+      latitude: 48.740000,
+      longitude: 2.240000
     },
     city: {
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: 48.853410,
+        longitude: 2.348800,
         zoom: 10
       },
       name: `Paris`

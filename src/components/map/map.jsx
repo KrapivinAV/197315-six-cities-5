@@ -1,52 +1,77 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
-
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 
 class Map extends Component {
   constructor(props) {
     super(props);
+
+    this.map = null;
   }
 
-  handleContainerLoad() {
+  componentDidMount() {
     const {offers} = this.props;
-
-    const city = [52.38333, 4.9];
-    const zoom = 12;
 
     const icon = leaflet.icon({
       iconUrl: `/img/pin.svg`,
       iconSize: [30, 30]
     });
 
-    const map = leaflet.map(`map`, {
-      center: city,
-      zoom,
+    this.map = leaflet.map(`map`, {
+      center: [offers[0].city.location.latitude, offers[0].city.location.longitude],
+      zoom: offers[0].city.location.zoom,
       zoomControl: false,
       marker: true
     });
 
-    map.setView(city, zoom);
+    this.map.setView([offers[0].city.location.latitude, offers[0].city.location.longitude], offers[0].city.location.zoom);
 
     leaflet
     .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     })
-    .addTo(map);
+    .addTo(this.map);
 
     offers.forEach((offer) => {
-      const offerCoordinates = [offer.location.latitude, offer.location.longitude];
+      const offerCoordinates = [
+        offer.location.latitude,
+        offer.location.longitude
+      ];
 
       leaflet
-      .marker(offerCoordinates, {icon})
-      .addTo(map);
+        .marker(offerCoordinates, {icon})
+        .addTo(this.map);
     });
   }
 
-  componentDidMount() {
-    this.handleContainerLoad();
+  componentDidUpdate() {
+    const {offers} = this.props;
+
+    this.map.eachLayer((layer) => {
+      if (layer.options.icon) {
+        layer.remove();
+      }
+    });
+
+    const icon = leaflet.icon({
+      iconUrl: `/img/pin.svg`,
+      iconSize: [30, 30]
+    });
+
+    offers.forEach((offer) => {
+      const offerCoordinates = [
+        offer.location.latitude,
+        offer.location.longitude,
+      ];
+
+      leaflet
+        .marker(offerCoordinates, {icon})
+        .addTo(this.map);
+    });
+
+    this.map.setView([offers[0].city.location.latitude, offers[0].city.location.longitude], offers[0].city.location.zoom);
   }
 
   render() {
@@ -60,7 +85,7 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired
 };
 
 export default Map;
