@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import MainScreenOfferList from "../main-screen-offer-list/main-screen-offer-list";
@@ -26,8 +27,8 @@ class Main extends PureComponent {
   }
 
   render() {
-    const {offers, loggedInStatus} = this.props;
-    const currentOffers = offers.slice();
+    const {currentCityOffers, currentCity, loggedInStatus} = this.props;
+    const currentOffers = currentCityOffers.slice();
 
     const sortedOffers = sorter(currentOffers, this.state.selectedSortType);
 
@@ -69,7 +70,7 @@ class Main extends PureComponent {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{sortedOffers.length} places to stay in {currentCity}</b>
 
                 <Sorter
                   selectedSortType={this.state.selectedSortType}
@@ -82,7 +83,7 @@ class Main extends PureComponent {
               <div className="cities__right-section">
                 <section className="cities__map map">
 
-                  <Map offers={offers} />
+                  <Map offers={currentOffers} />
 
                 </section>
               </div>
@@ -95,8 +96,15 @@ class Main extends PureComponent {
 }
 
 Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  currentCity: PropTypes.string.isRequired,
+  currentCityOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   loggedInStatus: PropTypes.bool.isRequired,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  currentCity: state.currentCity,
+  currentCityOffers: state.currentCityOffers
+});
+
+export {Main};
+export default connect(mapStateToProps)(Main);

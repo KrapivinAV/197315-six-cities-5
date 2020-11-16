@@ -1,12 +1,14 @@
 import {extend} from "../utils/extend";
 import {ActionType} from "./action";
 import offers from "../mocks/offers";
+import reviews from "../mocks/reviews";
 import {cities} from "../const";
 
 const initialState = {
   currentCity: cities[0],
   currentCityOffers: offers.filter((item) => item.city.name === cities[0]),
-  offers
+  offers,
+  reviews
 };
 
 const reducer = (state = initialState, action) => {
