@@ -29,7 +29,7 @@ OfferList.propTypes = {
     IMAGE_WRAPPER: PropTypes.string.isRequired,
     INFO: PropTypes.string.isRequired
   }).isRequired,
-  onCardHover: PropTypes.func.isRequired
+  onCardHover: PropTypes.func
 };
 
 export default OfferList;

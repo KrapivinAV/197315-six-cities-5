@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
+import {connect} from "react-redux";
 
 class Map extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class Map extends Component {
   }
 
   componentDidUpdate() {
-    const {offers} = this.props;
+    const {offers, currentOfferCardId} = this.props;
 
     this.map.eachLayer((layer) => {
       if (layer.options.icon) {
@@ -55,16 +56,16 @@ class Map extends Component {
       }
     });
 
-    const icon = leaflet.icon({
-      iconUrl: `/img/pin.svg`,
-      iconSize: [30, 30]
-    });
-
     offers.forEach((offer) => {
       const offerCoordinates = [
         offer.location.latitude,
         offer.location.longitude,
       ];
+
+      const icon = leaflet.icon({
+        iconUrl: currentOfferCardId === offer.id ? `/img/pin-active.svg` : `/img/pin.svg`,
+        iconSize: [30, 30]
+      });
 
       leaflet
         .marker(offerCoordinates, {icon})
@@ -85,7 +86,14 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired
+  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  currentOfferCardId: PropTypes.string.isRequired
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  currentOfferCardId: state.currentOfferCardId,
+  offers: state.currentCityOffers
+});
+
+export {Map};
+export default connect(mapStateToProps)(Map);

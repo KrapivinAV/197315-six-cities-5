@@ -52,10 +52,10 @@ class App extends PureComponent {
             path="/offer/:id"
             render={({location}) => {
               const id = location.pathname.slice(ID_INDEX);
-              const selectedOffer = currentCityOffers.filter((item) => item.id === id);
+              const selectedOffer = offers.filter((item) => item.id === id);
               const selectedReview = reviews.filter((item) => item.id === id);
 
-              return <PropertiesScreen offer={selectedOffer[0]} offers={currentCityOffers} review={selectedReview} loggedInStatus={loggedIn}/>;
+              return <PropertiesScreen offer={selectedOffer[0]} offers={offers} review={selectedReview} loggedInStatus={loggedIn}/>;
             }}
           />
         </Switch>

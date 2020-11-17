@@ -7,6 +7,7 @@ import {cities} from "../const";
 const initialState = {
   currentCity: cities[0],
   currentCityOffers: offers.filter((item) => item.city.name === cities[0]),
+  currentOfferCardId: ``,
   offers,
   reviews
 };
@@ -21,6 +22,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.GET_CURRENT_CITY_OFFERS:
       return extend(state, {
         currentCityOffers: action.payload,
+      });
+
+    case ActionType.CHANGE_ACTIVE_OFFER_CARD:
+      return extend(state, {
+        currentOfferCardId: action.payload,
       });
   }
 
