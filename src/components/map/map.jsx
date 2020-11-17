@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
+import {connect} from "react-redux";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
-import {connect} from "react-redux";
 
 class Map extends Component {
   constructor(props) {
