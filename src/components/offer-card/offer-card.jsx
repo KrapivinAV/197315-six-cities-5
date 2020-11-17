@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
 import {offerTypes} from "../../const";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../store/action";
 
 const OfferCard = ({offer, onCardHover, offerCardStyleSet}) => {
   const {id, title, premium, isFavorite, type, rating, price, photos} = offer;
@@ -24,7 +26,8 @@ const OfferCard = ({offer, onCardHover, offerCardStyleSet}) => {
   return (
     <article
       className={`${ARTICLE} place-card`}
-      onMouseOver={onCardHover || null}
+      id={id}
+      onMouseOver={onCardHover}
     >
 
       {ARTICLE === `cities__place-card` ? premiumType : null}
@@ -66,7 +69,7 @@ const OfferCard = ({offer, onCardHover, offerCardStyleSet}) => {
 
 OfferCard.propTypes = {
   offer: PropTypesSet.offer,
-  onCardHover: PropTypes.func.isRequired,
+  onCardHover: PropTypes.func,
   offerCardStyleSet: PropTypes.shape({
     ARTICLE: PropTypes.string.isRequired,
     IMAGE_WRAPPER: PropTypes.string.isRequired,
@@ -74,4 +77,11 @@ OfferCard.propTypes = {
   }).isRequired,
 };
 
-export default OfferCard;
+const mapDispatchToProps = (dispatch) => ({
+  onCardHover(evt) {
+    dispatch(ActionCreator.changeActiveOfferCard(evt.currentTarget.id));
+  },
+});
+
+export {OfferCard};
+export default connect(null, mapDispatchToProps)(OfferCard);

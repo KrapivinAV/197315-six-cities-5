@@ -1,6 +1,7 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
+import {connect} from "react-redux";
 import {Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
 import Main from "../main/main";
 import MainEmpty from "../main-empty/main-empty";
@@ -28,14 +29,14 @@ class App extends PureComponent {
   }
 
   render() {
-    const {offers, reviews} = this.props;
+    const {offers, currentCityOffers, reviews} = this.props;
     const {loggedIn} = this.state;
 
     return (
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            {offers && offers.length !== 0 ? <Main offers={offers} loggedInStatus={loggedIn}/> : <Redirect to="/no-offers" />}
+            {currentCityOffers && currentCityOffers.length !== 0 ? <Main currentCityOffers={currentCityOffers} loggedInStatus={loggedIn}/> : <Redirect to="/no-offers" />}
           </Route>
           <Route exact path="/no-offers">
             <MainEmpty loggedInStatus={loggedIn} />
@@ -65,7 +66,15 @@ class App extends PureComponent {
 
 App.propTypes = {
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
-  reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired
+  currentCityOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  currentCityOffers: state.currentCityOffers,
+  reviews: state.reviews
+});
+
+export {App};
+export default connect(mapStateToProps)(App);

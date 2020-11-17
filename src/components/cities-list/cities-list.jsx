@@ -1,0 +1,56 @@
+import React from "react";
+import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import PropTypesSet from "../../prop-types-set";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../store/action";
+import {cities} from "../../const";
+
+const CitiesList = ({offers, currentCity, onCityLinkClick}) => {
+
+  return (
+    <ul className="locations__list tabs__list">
+
+      {cities.map((city) => (
+        <li key={city} className="locations__item">
+          <Link
+            to="/"
+            className={
+              currentCity === city ?
+                `locations__item-link tabs__item tabs__item--active` :
+                `locations__item-link tabs__item`
+            }
+            id={city}
+            onClick={(evt) => {
+              onCityLinkClick(evt, offers);
+            }}
+          >
+            <span>{city}</span>
+          </Link>
+        </li>
+      ))}
+
+    </ul>
+  );
+};
+
+CitiesList.propTypes = {
+  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  currentCity: PropTypes.string.isRequired,
+  onCityLinkClick: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  currentCity: state.currentCity
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onCityLinkClick(evt, offers) {
+    dispatch(ActionCreator.changeCity(evt.currentTarget.id));
+    dispatch(ActionCreator.getCurrentCityOffers(evt.currentTarget.id, offers));
+  },
+});
+
+export {CitiesList};
+export default connect(mapStateToProps, mapDispatchToProps)(CitiesList);

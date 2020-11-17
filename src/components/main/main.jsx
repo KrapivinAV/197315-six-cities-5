@@ -1,10 +1,12 @@
 import React, {PureComponent} from "react";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import MainScreenOfferList from "../main-screen-offer-list/main-screen-offer-list";
 import Map from "../map/map";
 import Sorter from "../sorter/sorter";
+import CitiesList from "../cities-list/cities-list";
 import {sorter} from "../../utils/offer-sorter";
 
 class Main extends PureComponent {
@@ -25,8 +27,8 @@ class Main extends PureComponent {
   }
 
   render() {
-    const {offers, loggedInStatus} = this.props;
-    const currentOffers = offers.slice();
+    const {currentCityOffers, currentCity, loggedInStatus} = this.props;
+    const currentOffers = currentCityOffers.slice();
 
     const sortedOffers = sorter(currentOffers, this.state.selectedSortType);
 
@@ -59,45 +61,16 @@ class Main extends PureComponent {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active">
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
-              </ul>
+
+              <CitiesList />
+
             </section>
           </div>
           <div className="cities">
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{sortedOffers.length} places to stay in {currentCity}</b>
 
                 <Sorter
                   selectedSortType={this.state.selectedSortType}
@@ -110,7 +83,7 @@ class Main extends PureComponent {
               <div className="cities__right-section">
                 <section className="cities__map map">
 
-                  <Map offers={offers} />
+                  <Map />
 
                 </section>
               </div>
@@ -123,8 +96,15 @@ class Main extends PureComponent {
 }
 
 Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  currentCity: PropTypes.string.isRequired,
+  currentCityOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   loggedInStatus: PropTypes.bool.isRequired,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  currentCity: state.currentCity,
+  currentCityOffers: state.currentCityOffers
+});
+
+export {Main};
+export default connect(mapStateToProps)(Main);

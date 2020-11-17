@@ -161,7 +161,7 @@ class PropertiesScreen extends PureComponent {
             </div>
             <section className="property__map map">
 
-              <Map offers={nearOffers}/>
+              <Map />
 
             </section>
           </section>
