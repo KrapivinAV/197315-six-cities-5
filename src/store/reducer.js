@@ -28,6 +28,11 @@ const reducer = (state = initialState, action) => {
       return extend(state, {
         currentOfferCardId: action.payload,
       });
+
+    case ActionType.ADD_NEW_COMMENT:
+      return extend(state, {
+        comment: action.payload,
+      });
   }
 
   return state;

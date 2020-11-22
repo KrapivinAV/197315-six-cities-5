@@ -8,6 +8,15 @@ import {cities} from "../../const";
 
 const CitiesList = ({offers, currentCity, onCityLinkClick}) => {
 
+  const handleCityLinkClick = (evt) => {
+    evt.preventDefault();
+
+    if (evt.currentTarget.id !== currentCity) {
+      onCityLinkClick(evt.currentTarget.id, offers);
+    }
+  };
+
+
   return (
     <ul className="locations__list tabs__list">
 
@@ -21,9 +30,7 @@ const CitiesList = ({offers, currentCity, onCityLinkClick}) => {
                 `locations__item-link tabs__item`
             }
             id={city}
-            onClick={(evt) => {
-              onCityLinkClick(evt, offers);
-            }}
+            onClick={handleCityLinkClick}
           >
             <span>{city}</span>
           </Link>
@@ -46,9 +53,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCityLinkClick(evt, offers) {
-    dispatch(ActionCreator.changeCity(evt.currentTarget.id));
-    dispatch(ActionCreator.getCurrentCityOffers(evt.currentTarget.id, offers));
+  onCityLinkClick(id, offers) {
+    dispatch(ActionCreator.changeCity(id));
+    dispatch(ActionCreator.getCurrentCityOffers(id, offers));
   },
 });
 
