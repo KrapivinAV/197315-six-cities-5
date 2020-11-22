@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 const ratingVariants = [
@@ -29,94 +29,61 @@ const ratingVariants = [
   },
 ];
 
-class CommentForm extends PureComponent {
-  constructor(props) {
-    super(props);
+const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldChange, onCommentFormSubmit}) => {
+  const submitButtonStatus = rating && commentText ? `` : `disabled`;
 
-    this.state = {
-      rating: null,
-      commentText: null
-    };
+  return (
+    <form onSubmit={onCommentFormSubmit} className="reviews__form form" action="#" method="post">
+      <label className="reviews__label form__label" htmlFor="review">Your review</label>
+      <div className="reviews__rating-form form__rating">
 
-    this.handleRatingFieldChange = this.handleRatingFieldChange.bind(this);
-    this.handleCommentFieldChange = this.handleCommentFieldChange.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-  }
+        {ratingVariants.map((item) => (
+          <React.Fragment key={item.title}>
+            <input
+              onChange={onRatingFieldChange}
+              className="form__rating-input visually-hidden"
+              name="rating"
+              value={item.value}
+              id={item.id}
+              type="radio"
+              checked={rating === item.value ? true : false}
+            />
+            <label htmlFor={item.id} className="reviews__rating-label form__rating-label" title={item.title}>
+              <svg className="form__star-image" width="37" height="33">
+                <use xlinkHref="#icon-star"></use>
+              </svg>
+            </label>
+          </React.Fragment>
+        ))}
 
-  handleRatingFieldChange(evt) {
-    this.setState({
-      rating: +evt.target.value
-    });
-  }
-
-  handleCommentFieldChange(evt) {
-    this.setState({
-      commentText: evt.target.value
-    });
-  }
-
-  handleFormSubmit(evt) {
-    evt.preventDefault();
-
-    const {onCommentFormSubmit} = this.props;
-
-    this.setState({
-      rating: null,
-      commentText: null
-    });
-
-    onCommentFormSubmit();
-  }
-
-  render() {
-    const submitButtonStatus = this.state.rating && this.state.commentText ? `` : `disabled`;
-
-    return (
-      <form onSubmit={this.handleFormSubmit} className="reviews__form form" action="#" method="post">
-        <label className="reviews__label form__label" htmlFor="review">Your review</label>
-        <div className="reviews__rating-form form__rating">
-
-          {ratingVariants.map((item) => (
-            <React.Fragment key={item.title}>
-              <input
-                onChange={this.handleRatingFieldChange}
-                className="form__rating-input visually-hidden"
-                name="rating"
-                value={item.value}
-                id={item.id}
-                type="radio"
-                checked={this.state.rating === item.value ? true : false}
-              />
-              <label htmlFor={item.id} className="reviews__rating-label form__rating-label" title={item.title}>
-                <svg className="form__star-image" width="37" height="33">
-                  <use xlinkHref="#icon-star"></use>
-                </svg>
-              </label>
-            </React.Fragment>
-          ))}
-
-        </div>
-        <textarea
-          onChange={this.handleCommentFieldChange}
-          className="reviews__textarea form__textarea"
-          id="review"
-          name="review"
-          placeholder="Tell how was your stay, what you like and what can be improved"
-          value={this.state.commentText || ``}
-        >
-        </textarea>
-        <div className="reviews__button-wrapper">
-          <p className="reviews__help">
-            To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-          </p>
-          <button className="reviews__submit form__submit button" type="submit" disabled={submitButtonStatus}>Submit</button>
-        </div>
-      </form>
-    );
-  }
-}
+      </div>
+      <textarea
+        onChange={onCommentFieldChange}
+        className="reviews__textarea form__textarea"
+        id="review"
+        name="review"
+        placeholder="Tell how was your stay, what you like and what can be improved"
+        value={commentText || ``}
+      >
+      </textarea>
+      <div className="reviews__button-wrapper">
+        <p className="reviews__help">
+          To submit review please make sure to set <span className="reviews__star">rating</span>and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+        </p>
+        <button className="reviews__submit form__submit button" type="submit" disabled={submitButtonStatus}>Submit</button>
+      </div>
+    </form>
+  );
+};
 
 CommentForm.propTypes = {
+  rating: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  commentText: PropTypes.string.isRequired,
+  onRatingFieldChange: PropTypes.func.isRequired,
+  onCommentFieldChange: PropTypes.func.isRequired,
   onCommentFormSubmit: PropTypes.func.isRequired,
 };
 

@@ -8,8 +8,11 @@ import MainEmpty from "../main-empty/main-empty";
 import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
 import PropertiesScreen from "../properties-screen/properties-screen";
+import withSorterState from "../../hocs/with-sorter-state/with-sorter-state";
 
 const ID_INDEX = 7;
+
+const MainWrapped = withSorterState(Main);
 
 class App extends PureComponent {
   constructor(props) {
@@ -36,7 +39,7 @@ class App extends PureComponent {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            {currentCityOffers && currentCityOffers.length !== 0 ? <Main currentCityOffers={currentCityOffers} loggedInStatus={loggedIn}/> : <Redirect to="/no-offers" />}
+            {currentCityOffers && currentCityOffers.length !== 0 ? <MainWrapped loggedInStatus={loggedIn}/> : <Redirect to="/no-offers" />}
           </Route>
           <Route exact path="/no-offers">
             <MainEmpty loggedInStatus={loggedIn} />

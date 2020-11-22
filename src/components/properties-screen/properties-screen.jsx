@@ -6,9 +6,14 @@ import CommentForm from "../comment-form/comment-form";
 import ReviewsList from "../reviews-list/reviews-list";
 import Map from "../map/map";
 import PropertiesScreenOfferList from "../properties-screen-offer-list/properties-screen-offer-list";
+import withCommentFormState from "../../hocs/with-comment-form-state/with-comment-form-state";
 import {offerTypes} from "../../const";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../store/action";
 
 const NEAR_OFFERS_MAX_QUANTITY = 3;
+
+const CommentFormWrapped = withCommentFormState(CommentForm);
 
 class PropertiesScreen extends PureComponent {
   constructor(props) {
@@ -17,7 +22,10 @@ class PropertiesScreen extends PureComponent {
     this.handleCommentFormSubmit = this.handleCommentFormSubmit.bind(this);
   }
 
-  handleCommentFormSubmit() {
+  handleCommentFormSubmit(rating, commentText) {
+    const {offer, onCommentFormSubmit} = this.props;
+
+    onCommentFormSubmit(offer.id, rating, commentText);
   }
 
   render() {
@@ -150,7 +158,7 @@ class PropertiesScreen extends PureComponent {
 
                   <ReviewsList offerReviews={offerReviews}/>
 
-                  {loggedInStatus ? <CommentForm onCommentFormSubmit={this.handleCommentFormSubmit}/> : null}
+                  {loggedInStatus ? <CommentFormWrapped onCommentFormSubmit={this.handleCommentFormSubmit}/> : null}
 
                 </section>
               </div>
@@ -182,4 +190,17 @@ PropertiesScreen.propTypes = {
   loggedInStatus: PropTypes.bool.isRequired,
 };
 
-export default PropertiesScreen;
+PropertiesScreen.propTypes = {
+  onCommentFormSubmit: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onCommentFormSubmit(id, rating, commentText) {
+    dispatch(ActionCreator.addNewComment(id, rating, commentText));
+  },
+});
+
+export {PropertiesScreen};
+export default connect(null, mapDispatchToProps)(PropertiesScreen);
+
+

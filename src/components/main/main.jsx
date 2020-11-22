@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
@@ -9,96 +9,78 @@ import Sorter from "../sorter/sorter";
 import CitiesList from "../cities-list/cities-list";
 import {sorter} from "../../utils/offer-sorter";
 
-class Main extends PureComponent {
-  constructor(props) {
-    super(props);
+const Main = ({currentCityOffers, currentCity, loggedInStatus, selectedSortType, onSortTypeChange}) => {
+  const currentOffers = currentCityOffers.slice();
+  const sortedOffers = sorter(currentOffers, selectedSortType);
 
-    this.state = {
-      selectedSortType: `popular`
-    };
-
-    this.handleSortTypeChange = this.handleSortTypeChange.bind(this);
-  }
-
-  handleSortTypeChange(evt) {
-    this.setState({
-      selectedSortType: evt.target.value
-    });
-  }
-
-  render() {
-    const {currentCityOffers, currentCity, loggedInStatus} = this.props;
-    const currentOffers = currentCityOffers.slice();
-
-    const sortedOffers = sorter(currentOffers, this.state.selectedSortType);
-
-    return (
-      <div className="page page--gray page--main">
-        <header className="header">
-          <div className="container">
-            <div className="header__wrapper">
-              <div className="header__left">
-                <a className="header__logo-link header__logo-link--active">
-                  <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-                </a>
-              </div>
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <Link to={loggedInStatus ? `/favorites` : `/login`} className="header__nav-link header__nav-link--profile">
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
-                      <span className="header__user-name user__name">{loggedInStatus ? `Oliver.conner@gmail.com` : `Sign in`}</span>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
+  return (
+    <div className="page page--gray page--main">
+      <header className="header">
+        <div className="container">
+          <div className="header__wrapper">
+            <div className="header__left">
+              <a className="header__logo-link header__logo-link--active">
+                <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+              </a>
             </div>
+            <nav className="header__nav">
+              <ul className="header__nav-list">
+                <li className="header__nav-item user">
+                  <Link to={loggedInStatus ? `/favorites` : `/login`} className="header__nav-link header__nav-link--profile">
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    <span className="header__user-name user__name">{loggedInStatus ? `Oliver.conner@gmail.com` : `Sign in`}</span>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           </div>
-        </header>
+        </div>
+      </header>
 
-        <main className="page__main page__main--index">
-          <h1 className="visually-hidden">Cities</h1>
-          <div className="tabs">
-            <section className="locations container">
+      <main className="page__main page__main--index">
+        <h1 className="visually-hidden">Cities</h1>
+        <div className="tabs">
+          <section className="locations container">
 
-              <CitiesList />
+            <CitiesList />
+
+          </section>
+        </div>
+        <div className="cities">
+          <div className="cities__places-container container">
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">{sortedOffers.length} places to stay in {currentCity}</b>
+
+              <Sorter
+                selectedSortType={selectedSortType}
+                onSortTypeChange={onSortTypeChange}
+              />
+
+              <MainScreenOfferList offers={sortedOffers} />
 
             </section>
-          </div>
-          <div className="cities">
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers.length} places to stay in {currentCity}</b>
+            <div className="cities__right-section">
+              <section className="cities__map map">
 
-                <Sorter
-                  selectedSortType={this.state.selectedSortType}
-                  onSortTypeChange={this.handleSortTypeChange}
-                />
-
-                <MainScreenOfferList offers={sortedOffers} />
+                <Map />
 
               </section>
-              <div className="cities__right-section">
-                <section className="cities__map map">
-
-                  <Map />
-
-                </section>
-              </div>
             </div>
           </div>
-        </main>
-      </div>
-    );
-  }
-}
+        </div>
+      </main>
+    </div>
+  );
+};
 
 Main.propTypes = {
   currentCity: PropTypes.string.isRequired,
   currentCityOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   loggedInStatus: PropTypes.bool.isRequired,
+  selectedSortType: PropTypes.string.isRequired,
+  onSortTypeChange: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
