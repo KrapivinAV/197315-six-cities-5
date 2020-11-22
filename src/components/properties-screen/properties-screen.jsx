@@ -8,13 +8,11 @@ import Map from "../map/map";
 import PropertiesScreenOfferList from "../properties-screen-offer-list/properties-screen-offer-list";
 import {offerTypes} from "../../const";
 
+const NEAR_OFFERS_MAX_QUANTITY = 3;
+
 class PropertiesScreen extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      card: null
-    };
 
     this.handleCommentFormSubmit = this.handleCommentFormSubmit.bind(this);
   }
@@ -26,8 +24,6 @@ class PropertiesScreen extends PureComponent {
     const {offer, offers, review, loggedInStatus} = this.props;
     const {title, premium, isFavorite, type, rating, price, photos, bedroomsQuantity, maxAdultsQuantity, inside, owner, description} = offer;
     const {offerReviews} = review[0];
-
-    const NEAR_OFFERS_MAX_QUANTITY = 3;
 
     const nearOffers = offers.slice(0, NEAR_OFFERS_MAX_QUANTITY);
 

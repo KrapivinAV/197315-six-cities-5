@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import OfferCard from "../offer-card/offer-card";
 
-const OfferList = ({offers, offerListStyle, offerCardStyleSet, onCardHover}) => {
+const OfferList = ({offers, offerListStyle, offerCardStyleSet}) => {
 
   return (
     <div className={offerListStyle}>
@@ -13,7 +13,6 @@ const OfferList = ({offers, offerListStyle, offerCardStyleSet, onCardHover}) => 
           key={offer.id}
           offer={offer}
           offerCardStyleSet={offerCardStyleSet}
-          onCardHover={onCardHover}
         />
       ))}
 
@@ -28,8 +27,7 @@ OfferList.propTypes = {
     ARTICLE: PropTypes.string.isRequired,
     IMAGE_WRAPPER: PropTypes.string.isRequired,
     INFO: PropTypes.string.isRequired
-  }).isRequired,
-  onCardHover: PropTypes.func
+  }).isRequired
 };
 
 export default OfferList;

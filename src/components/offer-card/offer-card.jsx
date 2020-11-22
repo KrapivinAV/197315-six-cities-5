@@ -27,7 +27,7 @@ const OfferCard = ({offer, onCardHover, offerCardStyleSet}) => {
     <article
       className={`${ARTICLE} place-card`}
       id={id}
-      onMouseOver={onCardHover}
+      onMouseOver={ARTICLE === `cities__place-card` ? onCardHover : null}
     >
 
       {ARTICLE === `cities__place-card` ? premiumType : null}
