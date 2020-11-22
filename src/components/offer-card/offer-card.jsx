@@ -6,10 +6,16 @@ import {offerTypes} from "../../const";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../store/action";
 
-const OfferCard = ({offer, onCardHover, offerCardStyleSet}) => {
+const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) => {
   const {id, title, premium, isFavorite, type, rating, price, photos} = offer;
   const {ARTICLE, IMAGE_WRAPPER, INFO = ``} = offerCardStyleSet;
   const naturalRating = `${Math.round(rating) * 20}%`;
+
+  const handleCardHover = (evt) => {
+    if (evt.currentTarget.id !== currentOfferCardId) {
+      onCardHover(evt.currentTarget.id);
+    }
+  };
 
   const premiumType = premium ?
     (
@@ -27,7 +33,7 @@ const OfferCard = ({offer, onCardHover, offerCardStyleSet}) => {
     <article
       className={`${ARTICLE} place-card`}
       id={id}
-      onMouseOver={ARTICLE === `cities__place-card` ? onCardHover : null}
+      onMouseOver={ARTICLE === `cities__place-card` ? handleCardHover : null}
     >
 
       {ARTICLE === `cities__place-card` ? premiumType : null}
@@ -69,6 +75,7 @@ const OfferCard = ({offer, onCardHover, offerCardStyleSet}) => {
 
 OfferCard.propTypes = {
   offer: PropTypesSet.offer,
+  currentOfferCardId: PropTypes.string.isRequired,
   onCardHover: PropTypes.func,
   offerCardStyleSet: PropTypes.shape({
     ARTICLE: PropTypes.string.isRequired,
@@ -77,11 +84,16 @@ OfferCard.propTypes = {
   }).isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  currentOfferCardId: state.currentOfferCardId
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  onCardHover(evt) {
-    dispatch(ActionCreator.changeActiveOfferCard(evt.currentTarget.id));
+  onCardHover(id) {
+
+    dispatch(ActionCreator.changeActiveOfferCard(id));
   },
 });
 
 export {OfferCard};
-export default connect(null, mapDispatchToProps)(OfferCard);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);
