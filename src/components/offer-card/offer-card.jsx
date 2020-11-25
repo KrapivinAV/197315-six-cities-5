@@ -4,10 +4,10 @@ import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
 import {offerTypes} from "../../const";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
+import {changeActiveOfferCard} from "../../store/actions";
 
 const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) => {
-  const {id, title, premium, isFavorite, type, rating, price, photos} = offer;
+  const {id, title, isPremium, isFavorite, type, rating, price, previewImage} = offer;
   const {ARTICLE, IMAGE_WRAPPER, INFO = ``} = offerCardStyleSet;
   const naturalRating = `${Math.round(rating) * 20}%`;
 
@@ -17,7 +17,7 @@ const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) 
     }
   };
 
-  const premiumType = premium ?
+  const premiumType = isPremium ?
     (
       <div className="place-card__mark">
         <span>Premium</span>
@@ -33,14 +33,14 @@ const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) 
     <article
       className={`${ARTICLE} place-card`}
       id={id}
-      onMouseOver={ARTICLE === `cities__place-card` ? handleCardHover : null}
+      onMouseOver={handleCardHover}
     >
 
       {ARTICLE === `cities__place-card` ? premiumType : null}
 
       <div className={`${IMAGE_WRAPPER} place-card__image-wrapper`}>
-        <a href="#">
-          <img className="place-card__image" src={photos[0]} width="260" height="200" alt="Place image"/>
+        <a>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"/>
         </a>
       </div>
       <div className={`${INFO} place-card__info`}>
@@ -84,14 +84,13 @@ OfferCard.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  currentOfferCardId: state.currentOfferCardId
+const mapStateToProps = ({STATE}) => ({
+  currentOfferCardId: STATE.currentOfferCardId
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCardHover(id) {
-
-    dispatch(ActionCreator.changeActiveOfferCard(id));
+    dispatch(changeActiveOfferCard(id));
   },
 });
 

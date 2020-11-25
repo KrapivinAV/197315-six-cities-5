@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
+import {changeCity, getCurrentCityOffers} from "../../store/actions";
 import {cities} from "../../const";
 
 const CitiesList = ({offers, currentCity, onCityLinkClick}) => {
@@ -47,15 +47,15 @@ CitiesList.propTypes = {
   onCityLinkClick: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  offers: state.offers,
-  currentCity: state.currentCity
+const mapStateToProps = ({DATA, STATE}) => ({
+  offers: DATA.offers,
+  currentCity: STATE.currentCity
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCityLinkClick(id, offers) {
-    dispatch(ActionCreator.changeCity(id));
-    dispatch(ActionCreator.getCurrentCityOffers(id, offers));
+    dispatch(changeCity(id));
+    dispatch(getCurrentCityOffers(id, offers));
   },
 });
 

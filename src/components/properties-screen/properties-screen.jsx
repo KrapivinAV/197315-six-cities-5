@@ -9,7 +9,7 @@ import PropertiesScreenOfferList from "../properties-screen-offer-list/propertie
 import withCommentFormState from "../../hocs/with-comment-form-state/with-comment-form-state";
 import {offerTypes} from "../../const";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
+import {addNewComment} from "../../store/actions";
 
 const NEAR_OFFERS_MAX_QUANTITY = 3;
 
@@ -23,21 +23,20 @@ class PropertiesScreen extends PureComponent {
   }
 
   handleCommentFormSubmit(rating, commentText) {
-    const {offer, onCommentFormSubmit} = this.props;
+    const {offer, addNewCommentAction} = this.props;
 
-    onCommentFormSubmit(offer.id, rating, commentText);
+    addNewCommentAction(offer.id, rating, commentText);
   }
 
   render() {
-    const {offer, offers, review, loggedInStatus} = this.props;
-    const {title, premium, isFavorite, type, rating, price, photos, bedroomsQuantity, maxAdultsQuantity, inside, owner, description} = offer;
-    const {offerReviews} = review[0];
+    const {offer, offers, reviews, loggedInStatus} = this.props;
+    const {title, isPremium, isFavorite, type, rating, price, images, bedrooms, maxAdults, goods, host, description} = offer;
 
     const nearOffers = offers.slice(0, NEAR_OFFERS_MAX_QUANTITY);
 
     const naturalRating = `${Math.round(rating) * 20}%`;
 
-    const premiumType = premium ?
+    const premiumType = isPremium ?
       (
         <div className="property__mark">
           <span>Premium</span>
@@ -79,9 +78,9 @@ class PropertiesScreen extends PureComponent {
             <div className="property__gallery-container container">
               <div className="property__gallery">
 
-                {photos.map((photo) => (
-                  <div key={photo} className="property__image-wrapper">
-                    <img className="property__image" src={photo} alt="Photo studio" />
+                {images.map((image) => (
+                  <div key={image} className="property__image-wrapper">
+                    <img className="property__image" src={image} alt="Photo studio" />
                   </div>
                 ))}
 
@@ -115,10 +114,10 @@ class PropertiesScreen extends PureComponent {
                     {offerTypes[type]}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
-                    {bedroomsQuantity} Bedrooms
+                    {bedrooms} Bedrooms
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max {maxAdultsQuantity} adults
+                    Max {maxAdults} adults
                   </li>
                 </ul>
                 <div className="property__price">
@@ -129,7 +128,7 @@ class PropertiesScreen extends PureComponent {
                   <h2 className="property__inside-title">What&apos;s inside</h2>
                   <ul className="property__inside-list">
 
-                    {inside.map((item) => (
+                    {goods.map((item) => (
                       <li key={item} className="property__inside-item">
                         {item}
                       </li>
@@ -141,10 +140,10 @@ class PropertiesScreen extends PureComponent {
                   <h2 className="property__host-title">Meet the host</h2>
                   <div className="property__host-user user">
                     <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                      <img className="property__avatar user__avatar" src={owner.avatar} width="74" height="74" alt="Host avatar" />
+                      <img className="property__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar" />
                     </div>
                     <span className="property__user-name">
-                      {owner.name}
+                      {host.name}
                     </span>
                   </div>
                   <div className="property__description">
@@ -154,9 +153,9 @@ class PropertiesScreen extends PureComponent {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerReviews.length}</span></h2>
+                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
 
-                  <ReviewsList offerReviews={offerReviews}/>
+                  <ReviewsList offerReviews={reviews}/>
 
                   {loggedInStatus ? <CommentFormWrapped onCommentFormSubmit={this.handleCommentFormSubmit}/> : null}
 
@@ -186,21 +185,21 @@ class PropertiesScreen extends PureComponent {
 PropertiesScreen.propTypes = {
   offer: PropTypesSet.offer.isRequired,
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
-  review: PropTypes.arrayOf(PropTypesSet.review).isRequired,
+  reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired,
   loggedInStatus: PropTypes.bool.isRequired,
+  addNewCommentAction: PropTypes.func.isRequired
 };
 
-PropertiesScreen.propTypes = {
-  onCommentFormSubmit: PropTypes.func.isRequired
-};
+const mapStateToProps = ({DATA}) => ({
+  offers: DATA.offers,
+  reviews: DATA.reviews
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  onCommentFormSubmit(id, rating, commentText) {
-    dispatch(ActionCreator.addNewComment(id, rating, commentText));
+  addNewCommentAction(id, rating, commentText) {
+    dispatch(addNewComment(id, rating, commentText));
   },
 });
 
 export {PropertiesScreen};
-export default connect(null, mapDispatchToProps)(PropertiesScreen);
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(PropertiesScreen);

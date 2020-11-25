@@ -63,7 +63,7 @@ class Map extends Component {
       ];
 
       const icon = leaflet.icon({
-        iconUrl: currentOfferCardId === offer.id ? `/img/pin-active.svg` : `/img/pin.svg`,
+        iconUrl: +currentOfferCardId === offer.id ? `/img/pin-active.svg` : `/img/pin.svg`,
         iconSize: [30, 30]
       });
 
@@ -90,9 +90,9 @@ Map.propTypes = {
   currentOfferCardId: PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  currentOfferCardId: state.currentOfferCardId,
-  offers: state.currentCityOffers
+const mapStateToProps = ({STATE}) => ({
+  currentOfferCardId: STATE.currentOfferCardId,
+  offers: STATE.currentCityOffers
 });
 
 export {Map};

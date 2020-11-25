@@ -10,7 +10,7 @@ const ReviewsList = (props) => {
 
       {offerReviews.map((item) => (
 
-        <ReviewsItem key={item.text} item={item}/>
+        <ReviewsItem key={item.id} item={item}/>
 
       ))}
 
