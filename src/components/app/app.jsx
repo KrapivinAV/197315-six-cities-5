@@ -9,8 +9,7 @@ import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
 import PropertiesScreen from "../properties-screen/properties-screen";
 import withSorterState from "../../hocs/with-sorter-state/with-sorter-state";
-
-const ID_INDEX = 7;
+import {fetchReviewList} from "../../store/api-actions";
 
 const MainWrapped = withSorterState(Main);
 
@@ -32,7 +31,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const {offers, currentCityOffers, reviews} = this.props;
+    const {offers, currentCityOffers, currentOfferCardId, fetchReviewListAction} = this.props;
     const {loggedIn} = this.state;
 
     return (
@@ -53,12 +52,11 @@ class App extends PureComponent {
           <Route
             exact
             path="/offer/:id"
-            render={({location}) => {
-              const id = location.pathname.slice(ID_INDEX);
-              const selectedOffer = offers.filter((item) => item.id === id);
-              const selectedReview = reviews.filter((item) => item.id === id);
+            render={({}) => {
+              const selectedOffer = offers.filter((item) => item.id === +currentOfferCardId);
+              fetchReviewListAction(currentOfferCardId);
 
-              return <PropertiesScreen offer={selectedOffer[0]} offers={offers} review={selectedReview} loggedInStatus={loggedIn}/>;
+              return <PropertiesScreen offer={selectedOffer[0]} loggedInStatus={loggedIn}/>;
             }}
           />
         </Switch>
@@ -70,14 +68,24 @@ class App extends PureComponent {
 App.propTypes = {
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   currentCityOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
-  reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired,
+  currentOfferCardId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+  fetchReviewListAction: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  offers: state.offers,
-  currentCityOffers: state.currentCityOffers,
-  reviews: state.reviews
+const mapStateToProps = ({DATA, STATE}) => ({
+  offers: DATA.offers,
+  currentCityOffers: STATE.currentCityOffers,
+  currentOfferCardId: STATE.currentOfferCardId
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchReviewListAction(id) {
+    dispatch(fetchReviewList(id));
+  },
 });
 
 export {App};
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

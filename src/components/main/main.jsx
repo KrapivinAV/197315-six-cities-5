@@ -83,9 +83,9 @@ Main.propTypes = {
   onSortTypeChange: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  currentCity: state.currentCity,
-  currentCityOffers: state.currentCityOffers
+const mapStateToProps = ({STATE}) => ({
+  currentCity: STATE.currentCity,
+  currentCityOffers: STATE.currentCityOffers
 });
 
 export {Main};
