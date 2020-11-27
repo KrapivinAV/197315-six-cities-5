@@ -1,5 +1,4 @@
 import React from "react";
-import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
@@ -7,36 +6,18 @@ import MainScreenOfferList from "../main-screen-offer-list/main-screen-offer-lis
 import Map from "../map/map";
 import Sorter from "../sorter/sorter";
 import CitiesList from "../cities-list/cities-list";
+import Header from "../header/header";
 import {sorter} from "../../utils/offer-sorter";
+import {getCurrentCity, getCurrentCityOffers} from "../../store/selectors/selectors";
 
-const Main = ({currentCityOffers, currentCity, loggedInStatus, selectedSortType, onSortTypeChange}) => {
+const Main = ({currentCity, currentCityOffers, selectedSortType, onSortTypeChange}) => {
   const currentOffers = currentCityOffers.slice();
   const sortedOffers = sorter(currentOffers, selectedSortType);
 
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
-                <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link to={loggedInStatus ? `/favorites` : `/login`} className="header__nav-link header__nav-link--profile">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">{loggedInStatus ? `Oliver.conner@gmail.com` : `Sign in`}</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+
+      <Header mainScreenStatus={true} />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -64,7 +45,7 @@ const Main = ({currentCityOffers, currentCity, loggedInStatus, selectedSortType,
             <div className="cities__right-section">
               <section className="cities__map map">
 
-                <Map />
+                <Map offers={sortedOffers}/>
 
               </section>
             </div>
@@ -78,14 +59,13 @@ const Main = ({currentCityOffers, currentCity, loggedInStatus, selectedSortType,
 Main.propTypes = {
   currentCity: PropTypes.string.isRequired,
   currentCityOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
-  loggedInStatus: PropTypes.bool.isRequired,
   selectedSortType: PropTypes.string.isRequired,
   onSortTypeChange: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({STATE}) => ({
-  currentCity: STATE.currentCity,
-  currentCityOffers: STATE.currentCityOffers
+const mapStateToProps = (state) => ({
+  currentCity: getCurrentCity(state),
+  currentCityOffers: getCurrentCityOffers(state)
 });
 
 export {Main};

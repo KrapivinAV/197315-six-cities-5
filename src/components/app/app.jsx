@@ -1,91 +1,58 @@
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
-import PropTypesSet from "../../prop-types-set";
-import {connect} from "react-redux";
+import React from "react";
 import {Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
 import Main from "../main/main";
-import MainEmpty from "../main-empty/main-empty";
 import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
 import PropertiesScreen from "../properties-screen/properties-screen";
+import PrivateRoute from "../private-route/private-route";
 import withSorterState from "../../hocs/with-sorter-state/with-sorter-state";
-import {fetchReviewList} from "../../store/api-actions";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {AuthorizationStatus} from "../../const";
 
 const MainWrapped = withSorterState(Main);
 
-class App extends PureComponent {
-  constructor(props) {
-    super(props);
+const App = (props) => {
+  const {authorizationStatus} = props;
 
-    this.state = {
-      loggedIn: false
-    };
+  return (
+    <BrowserRouter>
+      <Switch>
 
-    this.handleLoggedIn = this.handleLoggedIn.bind(this);
-  }
+        <Route exact path="/">
+          <MainWrapped />
+        </Route>
 
-  handleLoggedIn() {
-    this.setState({
-      loggedIn: true
-    });
-  }
+        <Route exact path="/login">
+          {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to="/" /> : <LoginScreen />}
+        </Route>
 
-  render() {
-    const {offers, currentCityOffers, currentOfferCardId, fetchReviewListAction} = this.props;
-    const {loggedIn} = this.state;
+        <PrivateRoute
+          exact
+          path={`/favorites`}
+          render={() => {
+            return (
+              <FavoritesScreen />
+            );
+          }}
+        />
 
-    return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            {currentCityOffers && currentCityOffers.length !== 0 ? <MainWrapped loggedInStatus={loggedIn}/> : <Redirect to="/no-offers" />}
-          </Route>
-          <Route exact path="/no-offers">
-            <MainEmpty loggedInStatus={loggedIn} />
-          </Route>
-          <Route exact path="/login">
-            {loggedIn ? <Redirect to="/" /> : <LoginScreen onLoggedIn={this.handleLoggedIn}/>}
-          </Route>
-          <Route exact path="/favorites">
-            {loggedIn ? <FavoritesScreen offers={offers} /> : <Redirect to="/login" />}
-          </Route>
-          <Route
-            exact
-            path="/offer/:id"
-            render={({}) => {
-              const selectedOffer = offers.filter((item) => item.id === +currentOfferCardId);
-              fetchReviewListAction(currentOfferCardId);
+        <Route exact path="/offer/:id">
+          <PropertiesScreen />;
+        </Route>
 
-              return <PropertiesScreen offer={selectedOffer[0]} loggedInStatus={loggedIn}/>;
-            }}
-          />
-        </Switch>
-      </BrowserRouter>
-    );
-  }
-}
-
-App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
-  currentCityOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
-  currentOfferCardId: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
-  fetchReviewListAction: PropTypes.func.isRequired
+      </Switch>
+    </BrowserRouter>
+  );
 };
 
-const mapStateToProps = ({DATA, STATE}) => ({
-  offers: DATA.offers,
-  currentCityOffers: STATE.currentCityOffers,
-  currentOfferCardId: STATE.currentOfferCardId
-});
+App.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchReviewListAction(id) {
-    dispatch(fetchReviewList(id));
-  },
+const mapStateToProps = ({USER}) => ({
+  authorizationStatus: USER.authorizationStatus
 });
 
 export {App};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

@@ -24,7 +24,7 @@ const store = createStore(
 
 Promise.all([
   store.dispatch(fetchOfferList()),
-  store.dispatch(checkAuthorization()),
+  // store.dispatch(checkAuthorization()),
   store.dispatch(changeCity(`Paris`)),
 ])
 .then(() => {

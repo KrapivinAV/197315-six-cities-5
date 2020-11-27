@@ -91,8 +91,7 @@ Map.propTypes = {
 };
 
 const mapStateToProps = ({STATE}) => ({
-  currentOfferCardId: STATE.currentOfferCardId,
-  offers: STATE.currentCityOffers
+  currentOfferCardId: STATE.currentOfferCardId
 });
 
 export {Map};

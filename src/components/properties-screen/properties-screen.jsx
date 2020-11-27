@@ -1,11 +1,11 @@
 import React, {PureComponent} from "react";
-import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import CommentForm from "../comment-form/comment-form";
 import ReviewsList from "../reviews-list/reviews-list";
 import Map from "../map/map";
 import PropertiesScreenOfferList from "../properties-screen-offer-list/properties-screen-offer-list";
+import Header from "../header/header";
 import withCommentFormState from "../../hocs/with-comment-form-state/with-comment-form-state";
 import {offerTypes} from "../../const";
 import {connect} from "react-redux";
@@ -50,28 +50,8 @@ class PropertiesScreen extends PureComponent {
 
     return (
       <div className="page">
-        <header className="header">
-          <div className="container">
-            <div className="header__wrapper">
-              <div className="header__left">
-                <Link to={`/`} className="header__logo-link">
-                  <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41" />
-                </Link>
-              </div>
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <Link to={loggedInStatus ? `/favorites` : `/login`} className="header__nav-link header__nav-link--profile">
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
-                      <span className="header__user-name user__name">{loggedInStatus ? `Oliver.conner@gmail.com` : `Sign in`}</span>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </header>
+
+        <Header/>
 
         <main className="page__main page__main--property">
           <section className="property">
