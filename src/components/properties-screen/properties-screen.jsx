@@ -7,11 +7,10 @@ import Map from "../map/map";
 import PropertiesScreenOfferList from "../properties-screen-offer-list/properties-screen-offer-list";
 import Header from "../header/header";
 import withCommentFormState from "../../hocs/with-comment-form-state/with-comment-form-state";
-import {offerTypes} from "../../const";
+import {offerTypes, AuthorizationStatus} from "../../const";
 import {connect} from "react-redux";
 import {addNewComment} from "../../store/actions";
-
-const NEAR_OFFERS_MAX_QUANTITY = 3;
+import {getOffer, getNearOffers, getReviews} from "../../store/selectors/selectors";
 
 const CommentFormWrapped = withCommentFormState(CommentForm);
 
@@ -29,10 +28,8 @@ class PropertiesScreen extends PureComponent {
   }
 
   render() {
-    const {offer, offers, reviews, loggedInStatus} = this.props;
+    const {offer, nearOffers, reviews, authorizationStatus} = this.props;
     const {title, isPremium, isFavorite, type, rating, price, images, bedrooms, maxAdults, goods, host, description} = offer;
-
-    const nearOffers = offers.slice(0, NEAR_OFFERS_MAX_QUANTITY);
 
     const naturalRating = `${Math.round(rating) * 20}%`;
 
@@ -137,7 +134,7 @@ class PropertiesScreen extends PureComponent {
 
                   <ReviewsList offerReviews={reviews}/>
 
-                  {loggedInStatus ? <CommentFormWrapped onCommentFormSubmit={this.handleCommentFormSubmit}/> : null}
+                  {authorizationStatus === AuthorizationStatus.AUTH ? <CommentFormWrapped onCommentFormSubmit={this.handleCommentFormSubmit}/> : null}
 
                 </section>
               </div>
@@ -163,16 +160,19 @@ class PropertiesScreen extends PureComponent {
 }
 
 PropertiesScreen.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
   offer: PropTypesSet.offer.isRequired,
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  nearOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired,
   loggedInStatus: PropTypes.bool.isRequired,
   addNewCommentAction: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({DATA}) => ({
-  offers: DATA.offers,
-  reviews: DATA.reviews
+const mapStateToProps = (state) => ({
+  offer: getOffer(state),
+  nearOffers: getNearOffers(state),
+  reviews: getReviews(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const COMMENT_MIN_LENGTH = 50;
+const COMMENT_MAX_LENGTH = 300;
+
 const ratingVariants = [
   {
     id: `5-stars`,
@@ -63,6 +66,8 @@ const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldCh
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        minLength={COMMENT_MIN_LENGTH}
+        maxLenght={COMMENT_MAX_LENGTH}
         value={commentText || ``}
       >
       </textarea>

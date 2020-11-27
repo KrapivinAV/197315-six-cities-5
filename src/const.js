@@ -49,3 +49,6 @@ export const AppRoute = {
   FAVORITES: `/favorites`,
   PROPERTIES: `/offer/:id`
 };
+
+export const NEAR_OFFERS_MAX_QUANTITY = 3;
+export const REVIEWS_MAX_QUANTITY = 10;

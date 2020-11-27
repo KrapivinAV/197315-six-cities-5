@@ -1,19 +1,20 @@
 import React from "react";
-import {Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
+import PropTypes from "prop-types";
+import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {connect} from "react-redux";
 import Main from "../main/main";
 import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
 import PropertiesScreen from "../properties-screen/properties-screen";
 import PrivateRoute from "../private-route/private-route";
 import withSorterState from "../../hocs/with-sorter-state/with-sorter-state";
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {AuthorizationStatus} from "../../const";
+import {AppRoute, AuthorizationStatus} from "../../const";
+import {fetchOffer, fetchNearOfferList, fetchReviewList} from "../../store/api-actions";
 
 const MainWrapped = withSorterState(Main);
 
 const App = (props) => {
-  const {authorizationStatus} = props;
+  const {fetchOfferAction, fetchNearOfferListAction, fetchReviewListAction} = props;
 
   return (
     <BrowserRouter>
@@ -23,13 +24,23 @@ const App = (props) => {
           <MainWrapped />
         </Route>
 
-        <Route exact path="/login">
-          {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to="/" /> : <LoginScreen />}
-        </Route>
+        <PrivateRoute
+          exact
+          path={`/login`}
+          authorizationValue={AuthorizationStatus.NO_AUTH}
+          routeValue={AppRoute.MAIN}
+          render={() => {
+            return (
+              <LoginScreen />
+            );
+          }}
+        />
 
         <PrivateRoute
           exact
           path={`/favorites`}
+          authorizationValue={AuthorizationStatus.AUTH}
+          routeValue={AppRoute.LOGIN}
           render={() => {
             return (
               <FavoritesScreen />
@@ -37,9 +48,22 @@ const App = (props) => {
           }}
         />
 
-        <Route exact path="/offer/:id">
-          <PropertiesScreen />;
-        </Route>
+        <Route
+          exact
+          path="/offer/:id"
+          render={({match}) => {
+            Promise.all([
+              fetchOfferAction(match.params.id),
+              fetchNearOfferListAction(match.params.id),
+              fetchReviewListAction(match.params.id)
+            ])
+            .then(() => {
+              return (
+                <PropertiesScreen />
+              );
+            });
+          }}
+        />
 
       </Switch>
     </BrowserRouter>
@@ -47,12 +71,22 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired
+  fetchOfferAction: PropTypes.func.isRequired,
+  fetchNearOfferListAction: PropTypes.func.isRequired,
+  fetchReviewListAction: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({USER}) => ({
-  authorizationStatus: USER.authorizationStatus
+const mapDispatchToProps = (dispatch) => ({
+  fetchOfferAction(id) {
+    dispatch(fetchOffer(id));
+  },
+  fetchNearOfferListAction(id) {
+    dispatch(fetchNearOfferList(id));
+  },
+  fetchReviewListAction(id) {
+    dispatch(fetchReviewList(id));
+  }
 });
 
 export {App};
-export default connect(mapStateToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

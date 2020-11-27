@@ -39,7 +39,7 @@ const Main = ({currentCity, currentCityOffers, selectedSortType, onSortTypeChang
                 onSortTypeChange={onSortTypeChange}
               />
 
-              <MainScreenOfferList offers={sortedOffers} />
+              <MainScreenOfferList offers={currentCityOffers} />
 
             </section>
             <div className="cities__right-section">

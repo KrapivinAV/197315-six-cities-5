@@ -3,7 +3,9 @@ export const ActionType = {
   GET_CURRENT_CITY_OFFERS: `GET_CURRENT_CITY_OFFERS`,
   CHANGE_ACTIVE_OFFER_CARD: `CHANGE_ACTIVE_OFFER_CARD`,
   ADD_NEW_COMMENT: `ADD_NEW_COMMENT`,
+  LOAD_OFFER: `LOAD_OFFER`,
   LOAD_OFFERS: `LOAD_OFFERS`,
+  LOAD_NEAR_OFFERS: `LOAD_NEAR_OFFERS`,
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
 };
@@ -28,9 +30,19 @@ export const addNewComment = (id, rating, commentText) => ({
   payload: {id, rating, commentText},
 });
 
+export const loadOffer = (offer) => ({
+  type: ActionType.LOAD_OFFER,
+  payload: offer,
+});
+
 export const loadOffers = (offers) => ({
   type: ActionType.LOAD_OFFERS,
   payload: offers,
+});
+
+export const loadNearOffers = (nearOffers) => ({
+  type: ActionType.LOAD_NEAR_OFFERS,
+  payload: nearOffers,
 });
 
 export const loadReviews = (reviews) => ({
