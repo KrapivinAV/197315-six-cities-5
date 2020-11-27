@@ -2,18 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
-import {offerTypes} from "../../const";
+import {offerTypes, OfferCardStyleSet} from "../../const";
 import {connect} from "react-redux";
 import {changeActiveOfferCard} from "../../store/actions";
 
-const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) => {
+const OfferCard = ({offer, currentOfferCardId, changeActiveOfferCardAction, offerCardStyleSet}) => {
   const {id, title, isPremium, isFavorite, type, rating, price, previewImage} = offer;
   const {ARTICLE, IMAGE_WRAPPER, INFO = ``} = offerCardStyleSet;
   const naturalRating = `${Math.round(rating) * 20}%`;
 
   const handleCardHover = (evt) => {
     if (evt.currentTarget.id !== currentOfferCardId) {
-      onCardHover(evt.currentTarget.id);
+      changeActiveOfferCardAction(evt.currentTarget.id);
     }
   };
 
@@ -33,7 +33,7 @@ const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) 
     <article
       className={`${ARTICLE} place-card`}
       id={id}
-      onMouseOver={handleCardHover}
+      onMouseOver={offerCardStyleSet === OfferCardStyleSet.MAIN_SCREEN ? handleCardHover : null}
     >
 
       {ARTICLE === `cities__place-card` ? premiumType : null}
@@ -76,7 +76,7 @@ const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) 
 OfferCard.propTypes = {
   offer: PropTypesSet.offer,
   currentOfferCardId: PropTypes.string.isRequired,
-  onCardHover: PropTypes.func,
+  changeActiveOfferCardAction: PropTypes.func,
   offerCardStyleSet: PropTypes.shape({
     ARTICLE: PropTypes.string.isRequired,
     IMAGE_WRAPPER: PropTypes.string.isRequired,
@@ -89,7 +89,7 @@ const mapStateToProps = ({STATE}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCardHover(id) {
+  changeActiveOfferCardAction(id) {
     dispatch(changeActiveOfferCard(id));
   },
 });
