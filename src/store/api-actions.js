@@ -26,9 +26,7 @@ export const fetchReviewList = (id) => (dispatch, _getState, api) => (
 export const checkAuthorization = () => (dispatch, _getState, api) => (
   api.get(`/login`)
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
-    .catch((err) => {
-      throw err;
-    })
+    .catch(() => {})
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (

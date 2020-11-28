@@ -11,6 +11,7 @@ import {offerTypes, AuthorizationStatus} from "../../const";
 import {connect} from "react-redux";
 import {addNewComment} from "../../store/actions";
 import {getOffer, getNearOffers, getReviews} from "../../store/selectors/selectors";
+import {fetchOffer, fetchNearOfferList, fetchReviewList} from "../../store/api-actions";
 
 const CommentFormWrapped = withCommentFormState(CommentForm);
 
@@ -25,6 +26,13 @@ class PropertiesScreen extends PureComponent {
     const {offer, addNewCommentAction} = this.props;
 
     addNewCommentAction(offer.id, rating, commentText);
+  }
+
+  componentDidMount() {
+    const {id, fetchOfferAction, fetchNearOfferListAction, fetchReviewListAction} = this.props;
+    fetchOfferAction(id);
+    fetchNearOfferListAction(id);
+    fetchReviewListAction(id);
   }
 
   render() {
@@ -162,11 +170,13 @@ class PropertiesScreen extends PureComponent {
 PropertiesScreen.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   offer: PropTypesSet.offer.isRequired,
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   nearOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired,
-  loggedInStatus: PropTypes.bool.isRequired,
-  addNewCommentAction: PropTypes.func.isRequired
+  addNewCommentAction: PropTypes.func.isRequired,
+  fetchOfferAction: PropTypes.func.isRequired,
+  fetchNearOfferListAction: PropTypes.func.isRequired,
+  fetchReviewListAction: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -179,6 +189,15 @@ const mapDispatchToProps = (dispatch) => ({
   addNewCommentAction(id, rating, commentText) {
     dispatch(addNewComment(id, rating, commentText));
   },
+  fetchOfferAction(id) {
+    dispatch(fetchOffer(id));
+  },
+  fetchNearOfferListAction(id) {
+    dispatch(fetchNearOfferList(id));
+  },
+  fetchReviewListAction(id) {
+    dispatch(fetchReviewList(id));
+  }
 });
 
 export {PropertiesScreen};

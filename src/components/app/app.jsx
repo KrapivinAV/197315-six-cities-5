@@ -1,32 +1,33 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../main/main";
 import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
-import PropertiesScreen from "../properties-screen/properties-screen";
+// import PropertiesScreen from "../properties-screen/properties-screen";
 import PrivateRoute from "../private-route/private-route";
 import withSorterState from "../../hocs/with-sorter-state/with-sorter-state";
 import {AppRoute, AuthorizationStatus} from "../../const";
 import {fetchOffer, fetchNearOfferList, fetchReviewList} from "../../store/api-actions";
+import {PropertiesScreen} from "../properties-screen/properties-screen";
 
 const MainWrapped = withSorterState(Main);
 
-const App = (props) => {
-  const {fetchOfferAction, fetchNearOfferListAction, fetchReviewListAction} = props;
+const App = () => {
+  // const {fetchOfferAction, fetchNearOfferListAction, fetchReviewListAction} = props;
 
   return (
     <BrowserRouter>
       <Switch>
 
-        <Route exact path="/">
+        <Route exact path={AppRoute.MAIN}>
           <MainWrapped />
         </Route>
 
         <PrivateRoute
           exact
-          path={`/login`}
+          path={AppRoute.LOGIN}
           authorizationValue={AuthorizationStatus.NO_AUTH}
           routeValue={AppRoute.MAIN}
           render={() => {
@@ -38,7 +39,7 @@ const App = (props) => {
 
         <PrivateRoute
           exact
-          path={`/favorites`}
+          path={AppRoute.FAVORITES}
           authorizationValue={AuthorizationStatus.AUTH}
           routeValue={AppRoute.LOGIN}
           render={() => {
@@ -50,18 +51,23 @@ const App = (props) => {
 
         <Route
           exact
-          path="/offer/:id"
+          path={AppRoute.PROPERTIES}
+          // render={({match}) => {
+          //   Promise.all([
+          //     fetchOfferAction(match.params.id),
+          //     fetchNearOfferListAction(match.params.id),
+          //     fetchReviewListAction(match.params.id)
+          //   ])
+          //   .then(() => {
+          //     return (
+          //       <PropertiesScreen />
+          //     );
+          //   });
+          // }}
           render={({match}) => {
-            Promise.all([
-              fetchOfferAction(match.params.id),
-              fetchNearOfferListAction(match.params.id),
-              fetchReviewListAction(match.params.id)
-            ])
-            .then(() => {
-              return (
-                <PropertiesScreen />
-              );
-            });
+            return (
+              <PropertiesScreen id={match.params.id}/>
+            );
           }}
         />
 
@@ -71,9 +77,9 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  fetchOfferAction: PropTypes.func.isRequired,
-  fetchNearOfferListAction: PropTypes.func.isRequired,
-  fetchReviewListAction: PropTypes.func.isRequired
+  // fetchOfferAction: PropTypes.func.isRequired,
+  // fetchNearOfferListAction: PropTypes.func.isRequired,
+  // fetchReviewListAction: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
