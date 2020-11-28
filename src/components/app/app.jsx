@@ -1,21 +1,18 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import {connect} from "react-redux";
 import Main from "../main/main";
 import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
-// import PropertiesScreen from "../properties-screen/properties-screen";
+import PropertiesScreen from "../properties-screen/properties-screen";
 import PrivateRoute from "../private-route/private-route";
 import withSorterState from "../../hocs/with-sorter-state/with-sorter-state";
+import withOfferPreloader from "../../hocs/with-offer-preloader/with-offer-preloader";
 import {AppRoute, AuthorizationStatus} from "../../const";
-import {fetchOffer, fetchNearOfferList, fetchReviewList} from "../../store/api-actions";
-import {PropertiesScreen} from "../properties-screen/properties-screen";
 
 const MainWrapped = withSorterState(Main);
+const PropertiesScreenWrapped = withOfferPreloader(PropertiesScreen);
 
 const App = () => {
-  // const {fetchOfferAction, fetchNearOfferListAction, fetchReviewListAction} = props;
 
   return (
     <BrowserRouter>
@@ -52,21 +49,9 @@ const App = () => {
         <Route
           exact
           path={AppRoute.PROPERTIES}
-          // render={({match}) => {
-          //   Promise.all([
-          //     fetchOfferAction(match.params.id),
-          //     fetchNearOfferListAction(match.params.id),
-          //     fetchReviewListAction(match.params.id)
-          //   ])
-          //   .then(() => {
-          //     return (
-          //       <PropertiesScreen />
-          //     );
-          //   });
-          // }}
           render={({match}) => {
             return (
-              <PropertiesScreen id={match.params.id}/>
+              <PropertiesScreenWrapped id={match.params.id}/>
             );
           }}
         />
@@ -76,23 +61,4 @@ const App = () => {
   );
 };
 
-App.propTypes = {
-  // fetchOfferAction: PropTypes.func.isRequired,
-  // fetchNearOfferListAction: PropTypes.func.isRequired,
-  // fetchReviewListAction: PropTypes.func.isRequired
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchOfferAction(id) {
-    dispatch(fetchOffer(id));
-  },
-  fetchNearOfferListAction(id) {
-    dispatch(fetchNearOfferList(id));
-  },
-  fetchReviewListAction(id) {
-    dispatch(fetchReviewList(id));
-  }
-});
-
-export {App};
-export default connect(null, mapDispatchToProps)(App);
+export default App;

@@ -15,7 +15,6 @@ const CitiesList = ({currentCity, onCityLinkClick}) => {
     }
   };
 
-
   return (
     <ul className="locations__list tabs__list">
 

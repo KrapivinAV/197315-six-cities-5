@@ -1,6 +1,10 @@
 import {createSelector} from "reselect";
 import {NEAR_OFFERS_MAX_QUANTITY, REVIEWS_MAX_QUANTITY} from "../../const";
 
+export const getAuthorizationStatus = ({USER}) => {
+  return USER.authorizationStatus;
+};
+
 export const getOffer = ({DATA}) => {
   return DATA.offer;
 };
