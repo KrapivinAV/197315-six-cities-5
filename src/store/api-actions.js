@@ -1,4 +1,4 @@
-import {loadOffer, loadNearOffers, loadOffers, loadReviews, loadFavorites, loadUpdatedOffer, requireAuthorization} from "./actions";
+import {loadOffer, loadNearOffers, loadOffers, loadReviews, loadFavorites, loadUpdatedOffer, loadUserData, requireAuthorization} from "./actions";
 import {AuthorizationStatus} from "../const";
 import {adaptOffer, adaptOffers} from "../utils/adapt-offers";
 import {adaptReviews} from "../utils/adapt-reviews";
@@ -53,15 +53,49 @@ export const changeOfferFavoriteStatus = ({id, status}) => (dispatch, _getState,
           ..._getState().DATA.favorites.slice(_getState().DATA.favorites.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id) + 1)
         ]))
     )
+    .then(() =>
+      _getState().DATA.nearOffers.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id) === -1 ?
+        dispatch(loadNearOffers(_getState().DATA.nearOffers)) :
+        dispatch(loadNearOffers([
+          ..._getState().DATA.nearOffers.slice(0, _getState().DATA.nearOffers.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id)),
+          Object.assign(
+              {},
+              _getState().DATA.nearOffers[_getState().DATA.nearOffers.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id)],
+              {
+                isFavorite: _getState().DATA.updatedOffer.isFavorite
+              }
+          ),
+          ..._getState().DATA.nearOffers.slice(_getState().DATA.nearOffers.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id) + 1),
+        ])))
+    .then(() =>
+      _getState().DATA.offer ?
+        dispatch(loadOffer(
+            Object.assign(
+                {},
+                _getState().DATA.offer,
+                {
+                  isFavorite: _getState().DATA.updatedOffer.isFavorite
+                }
+            )
+        )) :
+        null
+    )
 );
 
 export const checkAuthorization = () => (dispatch, _getState, api) => (
   api.get(`/login`)
+    .then((data) => dispatch(loadUserData(data.data)))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {})
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`/login`, {email, password})
+    .then((data) => dispatch(loadUserData(data.data)))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
+);
+
+export const addComment = (id, comment, rating) => (dispatch, _getState, api) => (
+  api.post(`/comments/${id}`, {comment, rating})
+    .then((data) => dispatch(loadReviews(data.data)))
 );

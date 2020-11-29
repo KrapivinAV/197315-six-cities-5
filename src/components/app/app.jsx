@@ -1,11 +1,12 @@
 import React from "react";
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {Switch, Route, Router as BrowserRouter} from "react-router-dom";
 import Main from "../main/main";
 import LoginScreen from "../login-screen/login-screen";
 import FavoritesScreen from "../favorites-screen/favorites-screen";
 import PropertiesScreen from "../properties-screen/properties-screen";
 import PrivateRoute from "../private-route/private-route";
 import withSorterState from "../../hocs/with-sorter-state/with-sorter-state";
+import browserHistory from "../../browser-history";
 import {AppRoute, AuthorizationStatus} from "../../const";
 
 const MainWrapped = withSorterState(Main);
@@ -13,7 +14,7 @@ const MainWrapped = withSorterState(Main);
 const App = () => {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
 
         <Route exact path={AppRoute.MAIN}>

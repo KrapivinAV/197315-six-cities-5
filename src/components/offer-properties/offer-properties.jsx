@@ -8,14 +8,27 @@ import PropertiesScreenOfferList from "../properties-screen-offer-list/propertie
 import withCommentFormState from "../../hocs/with-comment-form-state/with-comment-form-state";
 import {offerTypes, AuthorizationStatus} from "../../const";
 import {connect} from "react-redux";
+import {redirectToRoute} from "../../store/actions";
+import {addComment, changeOfferFavoriteStatus} from "../../store/api-actions";
 import {getOffer, getCurrentNearOffers, getCurrentReviews, getAuthorizationStatus} from "../../store/selectors/selectors";
 
 const CommentFormWrapped = withCommentFormState(CommentForm);
 
-const OfferProperties = ({offer, nearOffers, reviews, authorizationStatus}) => {
-  const {title, isPremium, isFavorite, type, rating, price, images, bedrooms, maxAdults, goods, host, description} = offer;
+const OfferProperties = ({offer, nearOffers, reviews, authorizationStatus, changeOfferFavoriteStatusAction, redirectToRouteAction, addCommentAction}) => {
+  const {id, title, isPremium, isFavorite, type, rating, price, images, bedrooms, maxAdults, goods, host, description} = offer;
 
-  console.log(authorizationStatus);
+  const handleFavoriteButtonClick = (evt) => {
+    evt.preventDefault();
+
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      changeOfferFavoriteStatusAction({
+        id,
+        status: isFavorite ? 0 : 1
+      });
+    } else {
+      redirectToRouteAction(`/login`);
+    }
+  };
 
   const naturalRating = `${Math.round(rating) * 20}%`;
 
@@ -54,7 +67,11 @@ const OfferProperties = ({offer, nearOffers, reviews, authorizationStatus}) => {
               <h1 className="property__name">
                 {title}
               </h1>
-              <button className={favoriteButtonStyle} type="button">
+              <button
+                className={favoriteButtonStyle}
+                type="button"
+                onClick={handleFavoriteButtonClick}
+              >
                 <svg className="property__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -116,7 +133,7 @@ const OfferProperties = ({offer, nearOffers, reviews, authorizationStatus}) => {
 
               <ReviewsList offerReviews={reviews}/>
 
-              {authorizationStatus === AuthorizationStatus.AUTH ? <CommentFormWrapped /> : null}
+              {authorizationStatus === AuthorizationStatus.AUTH ? <CommentFormWrapped id={id} onCommentFormSubmit={addCommentAction}/> : null}
 
             </section>
           </div>
@@ -144,14 +161,29 @@ OfferProperties.propTypes = {
   offer: PropTypesSet.offer.isRequired,
   nearOffers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   reviews: PropTypes.arrayOf(PropTypesSet.review).isRequired,
+  changeOfferFavoriteStatusAction: PropTypes.func.isRequired,
+  redirectToRouteAction: PropTypes.func.isRequired,
+  addCommentAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: getAuthorizationStatus(state),
   offer: getOffer(state),
   nearOffers: getCurrentNearOffers(state),
-  reviews: getCurrentReviews(state)
+  reviews: getCurrentReviews(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeOfferFavoriteStatusAction(offerFavoriteStatus) {
+    dispatch(changeOfferFavoriteStatus(offerFavoriteStatus));
+  },
+  redirectToRouteAction(route) {
+    dispatch(redirectToRoute(route));
+  },
+  addCommentAction(id, comment, rating) {
+    dispatch(addComment(id, comment, rating));
+  }
 });
 
 export {OfferProperties};
-export default connect(mapStateToProps)(OfferProperties);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferProperties);

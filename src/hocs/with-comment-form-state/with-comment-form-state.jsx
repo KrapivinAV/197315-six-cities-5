@@ -31,9 +31,13 @@ const withCommentFormState = (Component) => {
     handleCommentFormSubmit(evt) {
       evt.preventDefault();
 
-      const {onCommentFormSubmit} = this.props;
+      const {id, onCommentFormSubmit} = this.props;
 
-      onCommentFormSubmit(this.state.rating, this.state.commentText);
+      onCommentFormSubmit(
+          id,
+          this.state.commentText,
+          this.state.rating
+      );
 
       this.setState({
         rating: ``,
@@ -55,6 +59,7 @@ const withCommentFormState = (Component) => {
   }
 
   WithCommentFormState.propTypes = {
+    id: PropTypes.number.isRequired,
     onCommentFormSubmit: PropTypes.func.isRequired
   };
 

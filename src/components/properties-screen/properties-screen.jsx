@@ -26,6 +26,19 @@ class PropertiesScreen extends PureComponent {
     });
   }
 
+  componentDidUpdate() {
+    const {id, changeOfferPropertiesLoadStatusAction, fetchOfferAction, fetchNearOfferListAction, fetchReviewListAction} = this.props;
+
+    Promise.all([
+      fetchOfferAction(id),
+      fetchNearOfferListAction(id),
+      fetchReviewListAction(id)
+    ])
+    .then(() => {
+      changeOfferPropertiesLoadStatusAction(true);
+    });
+  }
+
   componentWillUnmount() {
     const {changeOfferPropertiesLoadStatusAction} = this.props;
 
@@ -38,7 +51,7 @@ class PropertiesScreen extends PureComponent {
     return (
       <div className="page">
 
-        <Header/>
+        <Header />
 
         {
           offerPropertiesLoadStatus ?
@@ -69,13 +82,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeOfferPropertiesLoadStatus(status));
   },
   fetchOfferAction(id) {
-    dispatch(fetchOffer(id));
+    return dispatch(fetchOffer(id));
   },
   fetchNearOfferListAction(id) {
-    dispatch(fetchNearOfferList(id));
+    return dispatch(fetchNearOfferList(id));
   },
   fetchReviewListAction(id) {
-    dispatch(fetchReviewList(id));
+    return dispatch(fetchReviewList(id));
   }
 });
 

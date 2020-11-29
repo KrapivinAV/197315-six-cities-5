@@ -9,7 +9,9 @@ export const ActionType = {
   CHANGE_OFFER_PROPERTIES_LOAD_STATUS: `CHANGE_OFFER_PROPERTIES_LOAD_STATUS`,
   CHANGE_FAVORITES_LOAD_STATUS: `CHANGE_FAVORITES_LOAD_STATUS`,
   LOAD_UPDATED_OFFER: `LOAD_UPDATED_OFFER`,
+  LOAD_USER_DATA: `LOAD_USER_DATA`,
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
+  REDIRECT_TO_ROUTE: `REDIRECT_TO_ROUTE`,
 };
 
 export const changeCity = (cityName) => ({
@@ -62,7 +64,17 @@ export const changeFavoritesLoadStatus = (status) => ({
   payload: status,
 });
 
+export const loadUserData = (data) => ({
+  type: ActionType.LOAD_USER_DATA,
+  payload: data,
+});
+
 export const requireAuthorization = (status) => ({
   type: ActionType.REQUIRED_AUTHORIZATION,
   payload: status,
+});
+
+export const redirectToRoute = (url) => ({
+  type: ActionType.REDIRECT_TO_ROUTE,
+  payload: url,
 });

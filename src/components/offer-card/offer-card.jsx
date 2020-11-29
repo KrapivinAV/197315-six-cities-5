@@ -2,12 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
-import {offerTypes, OfferCardStyleSet} from "../../const";
+import {offerTypes, OfferCardStyleSet, AuthorizationStatus} from "../../const";
 import {connect} from "react-redux";
-import {changeActiveOfferCard} from "../../store/actions";
+import {changeActiveOfferCard, redirectToRoute} from "../../store/actions";
 import {changeOfferFavoriteStatus} from "../../store/api-actions";
+import {getAuthorizationStatus, getcurrentOfferCardId} from "../../store/selectors/selectors";
 
-const OfferCard = ({offer, currentOfferCardId, changeActiveOfferCardAction, changeOfferFavoriteStatusAction, offerCardStyleSet}) => {
+const OfferCard = ({offer, currentOfferCardId, authorizationStatus, changeActiveOfferCardAction, changeOfferFavoriteStatusAction, redirectToRouteAction, offerCardStyleSet}) => {
   const {id, title, isPremium, isFavorite, type, rating, price, previewImage} = offer;
   const {ARTICLE, IMAGE_WRAPPER, INFO = ``} = offerCardStyleSet;
   const naturalRating = `${Math.round(rating) * 20}%`;
@@ -21,10 +22,14 @@ const OfferCard = ({offer, currentOfferCardId, changeActiveOfferCardAction, chan
   const handleFavoriteButtonClick = (evt) => {
     evt.preventDefault();
 
-    changeOfferFavoriteStatusAction({
-      id,
-      status: isFavorite ? 0 : 1
-    });
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      changeOfferFavoriteStatusAction({
+        id,
+        status: isFavorite ? 0 : 1
+      });
+    } else {
+      redirectToRouteAction(`/login`);
+    }
   };
 
   const premiumType = isPremium ?
@@ -90,8 +95,10 @@ const OfferCard = ({offer, currentOfferCardId, changeActiveOfferCardAction, chan
 OfferCard.propTypes = {
   offer: PropTypesSet.offer,
   currentOfferCardId: PropTypes.string.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
   changeActiveOfferCardAction: PropTypes.func,
   changeOfferFavoriteStatusAction: PropTypes.func.isRequired,
+  redirectToRouteAction: PropTypes.func.isRequired,
   offerCardStyleSet: PropTypes.shape({
     ARTICLE: PropTypes.string.isRequired,
     IMAGE_WRAPPER: PropTypes.string.isRequired,
@@ -99,8 +106,9 @@ OfferCard.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = ({STATE}) => ({
-  currentOfferCardId: STATE.currentOfferCardId
+const mapStateToProps = (state) => ({
+  currentOfferCardId: getcurrentOfferCardId(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -109,6 +117,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   changeOfferFavoriteStatusAction(offerFavoriteStatus) {
     dispatch(changeOfferFavoriteStatus(offerFavoriteStatus));
+  },
+  redirectToRouteAction(route) {
+    dispatch(redirectToRoute(route));
   },
 });
 

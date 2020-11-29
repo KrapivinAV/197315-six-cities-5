@@ -5,12 +5,20 @@ export const getAuthorizationStatus = ({USER}) => {
   return USER.authorizationStatus;
 };
 
+export const getUserMail = ({USER}) => {
+  return USER.userData.email;
+};
+
 export const getfavoritesLoadStatus = ({STATE}) => {
   return STATE.favoritesLoadStatus;
 };
 
 export const getOfferPropertiesLoadStatus = ({STATE}) => {
   return STATE.offerPropertiesLoadStatus;
+};
+
+export const getcurrentOfferCardId = ({STATE}) => {
+  return STATE.currentOfferCardId;
 };
 
 export const getOffer = ({DATA}) => {
@@ -55,6 +63,8 @@ export const getCurrentNearOffers = createSelector(
 export const getCurrentReviews = createSelector(
     getReviews,
     (reviews) => {
-      return reviews.slice(0, REVIEWS_MAX_QUANTITY);
+      return reviews
+      .slice(0, REVIEWS_MAX_QUANTITY)
+      .sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
     }
 );

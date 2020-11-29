@@ -2,7 +2,7 @@ import {extend} from "../../../utils/extend";
 import {ActionType} from "../../actions";
 
 const initialState = {
-  offer: {},
+  offer: null,
   offers: [],
   nearOffers: [],
   reviews: [],

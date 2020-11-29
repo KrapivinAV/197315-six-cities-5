@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../const";
+import {getUserMail, getAuthorizationStatus} from "../../store/selectors/selectors";
 
 const Header = (props) => {
   const {mainScreenStatus, authorizationStatus, userMail} = props;
@@ -44,13 +45,13 @@ const Header = (props) => {
 
 Header.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
-  userMail: PropTypes.string.isRequired,
+  userMail: PropTypes.string,
   mainScreenStatus: PropTypes.bool
 };
 
-const mapStateToProps = ({USER}) => ({
-  authorizationStatus: USER.authorizationStatus,
-  userMail: USER.userMail
+const mapStateToProps = (state) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+  userMail: getUserMail(state)
 });
 
 export {Header};

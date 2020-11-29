@@ -36,7 +36,12 @@ const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldCh
   const submitButtonStatus = rating && commentText ? `` : `disabled`;
 
   return (
-    <form onSubmit={onCommentFormSubmit} className="reviews__form form" action="#" method="post">
+    <form
+      onSubmit={onCommentFormSubmit}
+      className="reviews__form form"
+      action="#"
+      method="post"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
 
@@ -51,7 +56,11 @@ const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldCh
               type="radio"
               checked={rating === item.value ? true : false}
             />
-            <label htmlFor={item.id} className="reviews__rating-label form__rating-label" title={item.title}>
+            <label
+              htmlFor={item.id}
+              className="reviews__rating-label form__rating-label"
+              title={item.title}
+            >
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
               </svg>
@@ -67,7 +76,7 @@ const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldCh
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         minLength={COMMENT_MIN_LENGTH}
-        maxLenght={COMMENT_MAX_LENGTH}
+        maxLength={COMMENT_MAX_LENGTH}
         value={commentText || ``}
       >
       </textarea>

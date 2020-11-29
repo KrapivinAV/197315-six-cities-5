@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeFavoritesLoadStatus(status));
   },
   fetchFavoritesListAction() {
-    dispatch(fetchFavoritesList());
+    return dispatch(fetchFavoritesList());
   }
 });
 
