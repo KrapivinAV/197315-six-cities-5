@@ -3,8 +3,9 @@ import {ActionType} from "../../actions";
 
 const initialState = {
   currentCity: ``,
-  currentCityOffers: [],
   currentOfferCardId: ``,
+  offerPropertiesLoadStatus: false,
+  favoritesLoadStatus: false,
 };
 
 const applicationState = (state = initialState, action) => {
@@ -14,14 +15,19 @@ const applicationState = (state = initialState, action) => {
         currentCity: action.payload,
       });
 
-    case ActionType.GET_CURRENT_CITY_OFFERS:
-      return extend(state, {
-        currentCityOffers: action.payload,
-      });
-
     case ActionType.CHANGE_ACTIVE_OFFER_CARD:
       return extend(state, {
         currentOfferCardId: action.payload,
+      });
+
+    case ActionType.CHANGE_OFFER_PROPERTIES_LOAD_STATUS:
+      return extend(state, {
+        offerPropertiesLoadStatus: action.payload,
+      });
+
+    case ActionType.CHANGE_FAVORITES_LOAD_STATUS:
+      return extend(state, {
+        favoritesLoadStatus: action.payload,
       });
   }
 

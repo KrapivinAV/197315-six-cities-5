@@ -1,4 +1,4 @@
-import {loadOffer, loadNearOffers, loadOffers, loadReviews, requireAuthorization} from "./actions";
+import {loadOffer, loadNearOffers, loadOffers, loadReviews, loadFavorites, loadUpdatedOffer, requireAuthorization} from "./actions";
 import {AuthorizationStatus} from "../const";
 import {adaptOffer, adaptOffers} from "../utils/adapt-offers";
 import {adaptReviews} from "../utils/adapt-reviews";
@@ -21,6 +21,38 @@ export const fetchNearOfferList = (id) => (dispatch, _getState, api) => (
 export const fetchReviewList = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
     .then(({data}) => dispatch(loadReviews(adaptReviews(data))))
+);
+
+export const fetchFavoritesList = () => (dispatch, _getState, api) => (
+  api.get(`/favorite`)
+    .then(({data}) => dispatch(loadFavorites(adaptOffers(data))))
+);
+
+export const changeOfferFavoriteStatus = ({id, status}) => (dispatch, _getState, api) => (
+  api.post(`/favorite/${id}/${status}`, {id, status})
+    .then((data) => dispatch(loadUpdatedOffer(adaptOffer(data.data))))
+    .then(() => dispatch(loadOffers([
+      ..._getState().DATA.offers.slice(0, _getState().DATA.offers.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id)),
+      Object.assign(
+          {},
+          _getState().DATA.offers[_getState().DATA.offers.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id)],
+          {
+            isFavorite: _getState().DATA.updatedOffer.isFavorite
+          }
+      ),
+      ..._getState().DATA.offers.slice(_getState().DATA.offers.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id) + 1),
+    ])))
+    .then(() =>
+      _getState().DATA.favorites.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id) === -1 ?
+        dispatch(loadFavorites([
+          ..._getState().DATA.favorites,
+          _getState().DATA.updatedOffer
+        ])) :
+        dispatch(loadFavorites([
+          ..._getState().DATA.favorites.slice(0, _getState().DATA.favorites.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id)),
+          ..._getState().DATA.favorites.slice(_getState().DATA.favorites.findIndex((offer) => offer.id === _getState().DATA.updatedOffer.id) + 1)
+        ]))
+    )
 );
 
 export const checkAuthorization = () => (dispatch, _getState, api) => (

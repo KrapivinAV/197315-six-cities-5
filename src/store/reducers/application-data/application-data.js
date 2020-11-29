@@ -5,7 +5,8 @@ const initialState = {
   offer: {},
   offers: [],
   nearOffers: [],
-  reviews: []
+  reviews: [],
+  favorites: []
 };
 
 const applicationData = (state = initialState, action) => {
@@ -28,6 +29,16 @@ const applicationData = (state = initialState, action) => {
     case ActionType.LOAD_REVIEWS:
       return extend(state, {
         reviews: action.payload,
+      });
+
+    case ActionType.LOAD_FAVORITES:
+      return extend(state, {
+        favorites: action.payload,
+      });
+
+    case ActionType.LOAD_UPDATED_OFFER:
+      return extend(state, {
+        updatedOffer: action.payload,
       });
 
     case ActionType.ADD_NEW_COMMENT:

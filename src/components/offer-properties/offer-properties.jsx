@@ -12,8 +12,10 @@ import {getOffer, getCurrentNearOffers, getCurrentReviews, getAuthorizationStatu
 
 const CommentFormWrapped = withCommentFormState(CommentForm);
 
-const OfferProperties = (offer, nearOffers, reviews, authorizationStatus) => {
+const OfferProperties = ({offer, nearOffers, reviews, authorizationStatus}) => {
   const {title, isPremium, isFavorite, type, rating, price, images, bedrooms, maxAdults, goods, host, description} = offer;
+
+  console.log(authorizationStatus);
 
   const naturalRating = `${Math.round(rating) * 20}%`;
 

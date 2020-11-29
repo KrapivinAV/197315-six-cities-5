@@ -6,11 +6,9 @@ import FavoritesScreen from "../favorites-screen/favorites-screen";
 import PropertiesScreen from "../properties-screen/properties-screen";
 import PrivateRoute from "../private-route/private-route";
 import withSorterState from "../../hocs/with-sorter-state/with-sorter-state";
-import withOfferPreloader from "../../hocs/with-offer-preloader/with-offer-preloader";
 import {AppRoute, AuthorizationStatus} from "../../const";
 
 const MainWrapped = withSorterState(Main);
-const PropertiesScreenWrapped = withOfferPreloader(PropertiesScreen);
 
 const App = () => {
 
@@ -50,8 +48,9 @@ const App = () => {
           exact
           path={AppRoute.PROPERTIES}
           render={({match}) => {
+
             return (
-              <PropertiesScreenWrapped id={match.params.id}/>
+              <PropertiesScreen id={match.params.id}/>
             );
           }}
         />

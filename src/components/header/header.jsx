@@ -8,15 +8,22 @@ const Header = (props) => {
   const {mainScreenStatus, authorizationStatus, userMail} = props;
 
   const logoStyle = mainScreenStatus ? `header__logo-link header__logo-link--active` : `header__logo-link`;
+  const logoRoute = mainScreenStatus ?
+    <a className={logoStyle}>
+      <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+    </a> :
+    <Link to={`/`} className={logoStyle}>
+      <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+    </Link>;
 
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className={logoStyle}>
-              <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-            </a>
+
+            {logoRoute}
+
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">

@@ -5,8 +5,9 @@ import {Link} from "react-router-dom";
 import {offerTypes, OfferCardStyleSet} from "../../const";
 import {connect} from "react-redux";
 import {changeActiveOfferCard} from "../../store/actions";
+import {changeOfferFavoriteStatus} from "../../store/api-actions";
 
-const OfferCard = ({offer, currentOfferCardId, changeActiveOfferCardAction, offerCardStyleSet}) => {
+const OfferCard = ({offer, currentOfferCardId, changeActiveOfferCardAction, changeOfferFavoriteStatusAction, offerCardStyleSet}) => {
   const {id, title, isPremium, isFavorite, type, rating, price, previewImage} = offer;
   const {ARTICLE, IMAGE_WRAPPER, INFO = ``} = offerCardStyleSet;
   const naturalRating = `${Math.round(rating) * 20}%`;
@@ -15,6 +16,15 @@ const OfferCard = ({offer, currentOfferCardId, changeActiveOfferCardAction, offe
     if (evt.currentTarget.id !== currentOfferCardId) {
       changeActiveOfferCardAction(evt.currentTarget.id);
     }
+  };
+
+  const handleFavoriteButtonClick = (evt) => {
+    evt.preventDefault();
+
+    changeOfferFavoriteStatusAction({
+      id,
+      status: isFavorite ? 0 : 1
+    });
   };
 
   const premiumType = isPremium ?
@@ -49,7 +59,11 @@ const OfferCard = ({offer, currentOfferCardId, changeActiveOfferCardAction, offe
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={favoriteButtonStyle} type="button">
+          <button
+            className={favoriteButtonStyle}
+            type="button"
+            onClick={handleFavoriteButtonClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -77,6 +91,7 @@ OfferCard.propTypes = {
   offer: PropTypesSet.offer,
   currentOfferCardId: PropTypes.string.isRequired,
   changeActiveOfferCardAction: PropTypes.func,
+  changeOfferFavoriteStatusAction: PropTypes.func.isRequired,
   offerCardStyleSet: PropTypes.shape({
     ARTICLE: PropTypes.string.isRequired,
     IMAGE_WRAPPER: PropTypes.string.isRequired,
@@ -91,6 +106,9 @@ const mapStateToProps = ({STATE}) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeActiveOfferCardAction(id) {
     dispatch(changeActiveOfferCard(id));
+  },
+  changeOfferFavoriteStatusAction(offerFavoriteStatus) {
+    dispatch(changeOfferFavoriteStatus(offerFavoriteStatus));
   },
 });
 

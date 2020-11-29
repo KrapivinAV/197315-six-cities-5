@@ -1,12 +1,14 @@
 export const ActionType = {
   CHANGE_CITY: `CHANGE_CITY`,
-  GET_CURRENT_CITY_OFFERS: `GET_CURRENT_CITY_OFFERS`,
   CHANGE_ACTIVE_OFFER_CARD: `CHANGE_ACTIVE_OFFER_CARD`,
-  ADD_NEW_COMMENT: `ADD_NEW_COMMENT`,
   LOAD_OFFER: `LOAD_OFFER`,
   LOAD_OFFERS: `LOAD_OFFERS`,
   LOAD_NEAR_OFFERS: `LOAD_NEAR_OFFERS`,
   LOAD_REVIEWS: `LOAD_REVIEWS`,
+  LOAD_FAVORITES: `LOAD_FAVORITES`,
+  CHANGE_OFFER_PROPERTIES_LOAD_STATUS: `CHANGE_OFFER_PROPERTIES_LOAD_STATUS`,
+  CHANGE_FAVORITES_LOAD_STATUS: `CHANGE_FAVORITES_LOAD_STATUS`,
+  LOAD_UPDATED_OFFER: `LOAD_UPDATED_OFFER`,
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
 };
 
@@ -15,19 +17,9 @@ export const changeCity = (cityName) => ({
   payload: cityName,
 });
 
-export const getCurrentCityOffers = (cityName, offers) => ({
-  type: ActionType.GET_CURRENT_CITY_OFFERS,
-  payload: offers.filter((item) => item.city.name === cityName),
-});
-
 export const changeActiveOfferCard = (id) => ({
   type: ActionType.CHANGE_ACTIVE_OFFER_CARD,
   payload: id,
-});
-
-export const addNewComment = (id, rating, commentText) => ({
-  type: ActionType.ADD_NEW_COMMENT,
-  payload: {id, rating, commentText},
 });
 
 export const loadOffer = (offer) => ({
@@ -48,6 +40,26 @@ export const loadNearOffers = (nearOffers) => ({
 export const loadReviews = (reviews) => ({
   type: ActionType.LOAD_REVIEWS,
   payload: reviews,
+});
+
+export const loadFavorites = (favorites) => ({
+  type: ActionType.LOAD_FAVORITES,
+  payload: favorites,
+});
+
+export const loadUpdatedOffer = (offer) => ({
+  type: ActionType.LOAD_UPDATED_OFFER,
+  payload: offer,
+});
+
+export const changeOfferPropertiesLoadStatus = (status) => ({
+  type: ActionType.CHANGE_OFFER_PROPERTIES_LOAD_STATUS,
+  payload: status,
+});
+
+export const changeFavoritesLoadStatus = (status) => ({
+  type: ActionType.CHANGE_FAVORITES_LOAD_STATUS,
+  payload: status,
 });
 
 export const requireAuthorization = (status) => ({

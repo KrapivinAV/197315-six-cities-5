@@ -5,6 +5,14 @@ export const getAuthorizationStatus = ({USER}) => {
   return USER.authorizationStatus;
 };
 
+export const getfavoritesLoadStatus = ({STATE}) => {
+  return STATE.favoritesLoadStatus;
+};
+
+export const getOfferPropertiesLoadStatus = ({STATE}) => {
+  return STATE.offerPropertiesLoadStatus;
+};
+
 export const getOffer = ({DATA}) => {
   return DATA.offer;
 };
@@ -19,6 +27,10 @@ export const getNearOffers = ({DATA}) => {
 
 export const getReviews = ({DATA}) => {
   return DATA.reviews;
+};
+
+export const getFavorites = ({DATA}) => {
+  return DATA.favorites;
 };
 
 export const getCurrentCity = ({STATE}) => {
