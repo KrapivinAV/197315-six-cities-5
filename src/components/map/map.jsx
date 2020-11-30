@@ -4,6 +4,7 @@ import PropTypesSet from "../../prop-types-set";
 import {connect} from "react-redux";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
+import {ScreenMarker} from "../../const";
 
 class Map extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Map extends Component {
   }
 
   componentDidUpdate() {
-    const {offers, currentOfferCardId} = this.props;
+    const {offers, currentOfferCardId, screenMarker} = this.props;
 
     this.map.eachLayer((layer) => {
       if (layer.options.icon) {
@@ -63,7 +64,7 @@ class Map extends Component {
       ];
 
       const icon = leaflet.icon({
-        iconUrl: currentOfferCardId === offer.id ? `/img/pin-active.svg` : `/img/pin.svg`,
+        iconUrl: (screenMarker === ScreenMarker.MAIN && +currentOfferCardId === offer.id) || (screenMarker === ScreenMarker.PROPERTIES && offers[0].id === offer.id) ? `/img/pin-active.svg` : `/img/pin.svg`,
         iconSize: [30, 30]
       });
 
@@ -87,12 +88,12 @@ class Map extends Component {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
-  currentOfferCardId: PropTypes.string.isRequired
+  currentOfferCardId: PropTypes.string.isRequired,
+  screenMarker: PropTypes.bool
 };
 
-const mapStateToProps = (state) => ({
-  currentOfferCardId: state.currentOfferCardId,
-  offers: state.currentCityOffers
+const mapStateToProps = ({STATE}) => ({
+  currentOfferCardId: STATE.currentOfferCardId
 });
 
 export {Map};

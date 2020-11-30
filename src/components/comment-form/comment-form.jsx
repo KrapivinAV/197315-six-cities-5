@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const COMMENT_MIN_LENGTH = 50;
+const COMMENT_MAX_LENGTH = 300;
+
 const ratingVariants = [
   {
     id: `5-stars`,
@@ -30,10 +33,20 @@ const ratingVariants = [
 ];
 
 const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldChange, onCommentFormSubmit}) => {
-  const submitButtonStatus = rating && commentText ? `` : `disabled`;
+  const submitButtonStatus = rating &&
+                             commentText &&
+                             commentText.length >= COMMENT_MIN_LENGTH &&
+                             commentText.length <= COMMENT_MAX_LENGTH ?
+    `` :
+    `disabled`;
 
   return (
-    <form onSubmit={onCommentFormSubmit} className="reviews__form form" action="#" method="post">
+    <form
+      onSubmit={onCommentFormSubmit}
+      className="reviews__form form"
+      action="#"
+      method="post"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
 
@@ -48,7 +61,11 @@ const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldCh
               type="radio"
               checked={rating === item.value ? true : false}
             />
-            <label htmlFor={item.id} className="reviews__rating-label form__rating-label" title={item.title}>
+            <label
+              htmlFor={item.id}
+              className="reviews__rating-label form__rating-label"
+              title={item.title}
+            >
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
               </svg>
@@ -63,7 +80,7 @@ const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldCh
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={commentText || ``}
+        value={commentText}
       >
       </textarea>
       <div className="reviews__button-wrapper">

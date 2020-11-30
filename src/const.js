@@ -37,3 +37,23 @@ export const cities = [
   `Hamburg`,
   `Dusseldorf`
 ];
+
+export const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`,
+};
+
+export const AppRoute = {
+  MAIN: `/`,
+  LOGIN: `/login`,
+  FAVORITES: `/favorites`,
+  PROPERTIES: `/offer/:id`
+};
+
+export const ScreenMarker = {
+  MAIN: `main`,
+  PROPERTIES: `properties`
+};
+
+export const NEAR_OFFERS_MAX_QUANTITY = 3;
+export const REVIEWS_MAX_QUANTITY = 10;

@@ -2,22 +2,37 @@ import React from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
-import {offerTypes} from "../../const";
+import {offerTypes, AuthorizationStatus} from "../../const";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
+import {changeActiveOfferCard, redirectToRoute} from "../../store/actions";
+import {changeOfferFavoriteStatus} from "../../store/api-actions";
+import {getAuthorizationStatus, getcurrentOfferCardId} from "../../store/selectors/selectors";
 
-const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) => {
-  const {id, title, premium, isFavorite, type, rating, price, photos} = offer;
+const OfferCard = ({offer, currentOfferCardId, authorizationStatus, changeActiveOfferCardAction, changeOfferFavoriteStatusAction, redirectToRouteAction, offerCardStyleSet}) => {
+  const {id, title, isPremium, isFavorite, type, rating, price, previewImage} = offer;
   const {ARTICLE, IMAGE_WRAPPER, INFO = ``} = offerCardStyleSet;
   const naturalRating = `${Math.round(rating) * 20}%`;
 
   const handleCardHover = (evt) => {
     if (evt.currentTarget.id !== currentOfferCardId) {
-      onCardHover(evt.currentTarget.id);
+      changeActiveOfferCardAction(evt.currentTarget.id);
     }
   };
 
-  const premiumType = premium ?
+  const handleFavoriteButtonClick = (evt) => {
+    evt.preventDefault();
+
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      changeOfferFavoriteStatusAction({
+        id,
+        status: isFavorite ? 0 : 1
+      });
+    } else {
+      redirectToRouteAction(`/login`);
+    }
+  };
+
+  const premiumType = isPremium ?
     (
       <div className="place-card__mark">
         <span>Premium</span>
@@ -33,14 +48,14 @@ const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) 
     <article
       className={`${ARTICLE} place-card`}
       id={id}
-      onMouseOver={ARTICLE === `cities__place-card` ? handleCardHover : null}
+      onMouseOver={handleCardHover}
     >
 
       {ARTICLE === `cities__place-card` ? premiumType : null}
 
       <div className={`${IMAGE_WRAPPER} place-card__image-wrapper`}>
-        <a href="#">
-          <img className="place-card__image" src={photos[0]} width="260" height="200" alt="Place image"/>
+        <a>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"/>
         </a>
       </div>
       <div className={`${INFO} place-card__info`}>
@@ -49,7 +64,11 @@ const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) 
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={favoriteButtonStyle} type="button">
+          <button
+            className={favoriteButtonStyle}
+            type="button"
+            onClick={handleFavoriteButtonClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -76,7 +95,10 @@ const OfferCard = ({offer, currentOfferCardId, onCardHover, offerCardStyleSet}) 
 OfferCard.propTypes = {
   offer: PropTypesSet.offer,
   currentOfferCardId: PropTypes.string.isRequired,
-  onCardHover: PropTypes.func,
+  authorizationStatus: PropTypes.string.isRequired,
+  changeActiveOfferCardAction: PropTypes.func,
+  changeOfferFavoriteStatusAction: PropTypes.func.isRequired,
+  redirectToRouteAction: PropTypes.func.isRequired,
   offerCardStyleSet: PropTypes.shape({
     ARTICLE: PropTypes.string.isRequired,
     IMAGE_WRAPPER: PropTypes.string.isRequired,
@@ -85,13 +107,19 @@ OfferCard.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  currentOfferCardId: state.currentOfferCardId
+  currentOfferCardId: getcurrentOfferCardId(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCardHover(id) {
-
-    dispatch(ActionCreator.changeActiveOfferCard(id));
+  changeActiveOfferCardAction(id) {
+    dispatch(changeActiveOfferCard(id));
+  },
+  changeOfferFavoriteStatusAction(offerFavoriteStatus) {
+    dispatch(changeOfferFavoriteStatus(offerFavoriteStatus));
+  },
+  redirectToRouteAction(route) {
+    dispatch(redirectToRoute(route));
   },
 });
 

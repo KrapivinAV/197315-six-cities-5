@@ -1,69 +1,78 @@
-import React from "react";
+import React, {PureComponent} from "react";
+import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
-import PropTypesSet from "../../prop-types-set";
-import FavoritesScreenOfferList from "../favorites-screen-offer-list/favorites-screen-offer-list";
+import FavoritesMain from "../favorites-main/favorites-main";
+import Header from "../header/header";
+import Preloader from "../preloader/preloader";
+import {getfavoritesLoadStatus} from "../../store/selectors/selectors";
+import {changeFavoritesLoadStatus} from "../../store/actions";
+import {fetchFavoritesList} from "../../store/api-actions";
 
-const FavoritesScreen = ({offers}) => {
-  const favoriteOffers = offers.filter((item) => item.isFavorite === true);
+class FavoritesScreen extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Link to={`/`} className="header__logo-link">
-                <img className="header__logo" src="/img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </Link>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+  componentDidMount() {
+    const {fetchFavoritesListAction, changeFavoritesLoadStatusAction} = this.props;
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Amsterdam</span>
-                    </a>
-                  </div>
-                </div>
+    Promise.all([
+      fetchFavoritesListAction()
+    ])
+    .then(() => {
+      changeFavoritesLoadStatusAction(true);
+    });
+  }
 
-                <FavoritesScreenOfferList offers={favoriteOffers} />
+  componentWillUnmount() {
+    const {changeFavoritesLoadStatusAction} = this.props;
 
-              </li>
-            </ul>
-          </section>
-        </div>
-      </main>
-      <footer className="footer container">
-        <Link to={`/`} className="header__logo-link">
-          <img className="footer__logo" src="/img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </Link>
-      </footer>
-    </div>
-  );
-};
+    changeFavoritesLoadStatusAction(false);
+  }
+
+  render() {
+    const {favoritesLoadStatus} = this.props;
+
+    return (
+      <div className="page">
+
+        <Header/>
+
+        {
+          favoritesLoadStatus ?
+            <FavoritesMain /> :
+            <Preloader />
+        }
+
+        <footer className="footer container">
+          <Link to={`/`} className="header__logo-link">
+            <img className="footer__logo" src="/img/logo.svg" alt="6 cities logo" width="64" height="33" />
+          </Link>
+        </footer>
+      </div>
+    );
+  }
+}
 
 FavoritesScreen.propTypes = {
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
+  favoritesLoadStatus: PropTypes.bool.isRequired,
+  changeFavoritesLoadStatusAction: PropTypes.func.isRequired,
+  fetchFavoritesListAction: PropTypes.func.isRequired
 };
 
-export default FavoritesScreen;
+const mapStateToProps = (state) => ({
+  favoritesLoadStatus: getfavoritesLoadStatus(state)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFavoritesLoadStatusAction(status) {
+    dispatch(changeFavoritesLoadStatus(status));
+  },
+  fetchFavoritesListAction() {
+    return dispatch(fetchFavoritesList());
+  }
+});
+
+export {FavoritesScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritesScreen);

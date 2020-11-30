@@ -1,21 +1,19 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
-import PropTypesSet from "../../prop-types-set";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
+import {changeCity} from "../../store/actions";
 import {cities} from "../../const";
 
-const CitiesList = ({offers, currentCity, onCityLinkClick}) => {
+const CitiesList = ({currentCity, onCityLinkClick}) => {
 
   const handleCityLinkClick = (evt) => {
     evt.preventDefault();
 
     if (evt.currentTarget.id !== currentCity) {
-      onCityLinkClick(evt.currentTarget.id, offers);
+      onCityLinkClick(evt.currentTarget.id);
     }
   };
-
 
   return (
     <ul className="locations__list tabs__list">
@@ -42,20 +40,17 @@ const CitiesList = ({offers, currentCity, onCityLinkClick}) => {
 };
 
 CitiesList.propTypes = {
-  offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   currentCity: PropTypes.string.isRequired,
   onCityLinkClick: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  offers: state.offers,
-  currentCity: state.currentCity
+const mapStateToProps = ({STATE}) => ({
+  currentCity: STATE.currentCity
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCityLinkClick(id, offers) {
-    dispatch(ActionCreator.changeCity(id));
-    dispatch(ActionCreator.getCurrentCityOffers(id, offers));
+  onCityLinkClick(id) {
+    dispatch(changeCity(id));
   },
 });
 

@@ -1,22 +1,41 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
+import {composeWithDevTools} from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import {createAPI} from "./services/api";
 import App from "./components/app/app";
-import {reducer} from "./store/reducer";
+import rootReducer from "./store/reducers/root-reducer";
+import {requireAuthorization, changeCity} from "./store/actions";
+import {fetchOfferList, checkAuthorization} from "./store/api-actions";
+import {AuthorizationStatus} from "./const";
+import {redirect} from "./store/middlewares/redirect";
+
+const api = createAPI(
+    () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH))
+);
 
 const store = createStore(
-    reducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+    rootReducer,
+    composeWithDevTools(
+        applyMiddleware(thunk.withExtraArgument(api)),
+        applyMiddleware(redirect)
+    )
 );
 
-ReactDOM.render(
+Promise.all([
+  store.dispatch(fetchOfferList()),
+  store.dispatch(checkAuthorization()),
+  store.dispatch(changeCity(`Paris`)),
+])
+.then(() => {
+  ReactDOM.render(
 
-    <Provider store={store}>
+      <Provider store={store}>
+        <App />
+      </Provider>,
 
-      <App />
-
-    </Provider>,
-
-    document.querySelector(`#root`)
-);
+      document.querySelector(`#root`)
+  );
+});
