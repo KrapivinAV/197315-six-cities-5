@@ -80,7 +80,7 @@ const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldCh
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={commentText || ``}
+        value={commentText}
       >
       </textarea>
       <div className="reviews__button-wrapper">
