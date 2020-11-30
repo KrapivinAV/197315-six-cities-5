@@ -94,7 +94,10 @@ const OfferCard = ({offer, currentOfferCardId, authorizationStatus, changeActive
 
 OfferCard.propTypes = {
   offer: PropTypesSet.offer,
-  currentOfferCardId: PropTypes.string.isRequired,
+  currentOfferCardId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   authorizationStatus: PropTypes.string.isRequired,
   changeActiveOfferCardAction: PropTypes.func,
   changeOfferFavoriteStatusAction: PropTypes.func.isRequired,
