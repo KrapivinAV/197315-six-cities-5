@@ -89,7 +89,7 @@ class Map extends Component {
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypesSet.offer).isRequired,
   currentOfferCardId: PropTypes.string.isRequired,
-  screenMarker: PropTypes.bool
+  screenMarker: PropTypes.string.isRequired
 };
 
 const mapStateToProps = ({STATE}) => ({
