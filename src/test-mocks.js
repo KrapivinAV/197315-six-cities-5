@@ -127,7 +127,7 @@ export const offerSecondCityIsFavoriteNotPremiumHostNotPro = {
   maxAdults: 8
 };
 
-export const review = {
+export const REVIEW_FIRST = {
   id: 1,
   rating: 3,
   comment: `99999999999999999999999999999999999999999999999999999`,
@@ -136,7 +136,19 @@ export const review = {
     id: 1,
     name: `ak`,
     avatarUrl: `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/1.jpg`,
+    isPro: true
+  }
+};
+
+export const REVIEW_SECOND = {
+  id: 2,
+  rating: 5,
+  comment: `99999999999999999999999999999999999999999999999999999`,
+  date: `2020-10-30T06:28:10.586Z`,
+  user: {
+    id: 1,
+    name: `ak`,
+    avatarUrl: `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/1.jpg`,
     isPro: false
   }
-
 };

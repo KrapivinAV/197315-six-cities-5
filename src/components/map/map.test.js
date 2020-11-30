@@ -9,6 +9,20 @@ import {offerFirstCityIsFavoriteIsPremiumHostIsPro, offerFirstCityNotFavoriteNot
 
 const CURRENT_OFFER_CARD_ID = `1`;
 
+jest.mock(`leaflet`, () => ({
+  icon: () => {},
+  eachLayer: () => {},
+  map: () => ({
+    setView: () => {}
+  }),
+  tileLayer: () => ({
+    addTo: () => {}
+  }),
+  marker: () => ({
+    addTo: () => {}
+  })
+}));
+
 describe(`Render Map`, () => {
   it(`On Main Screen`, () => {
 
