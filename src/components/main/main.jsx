@@ -9,6 +9,7 @@ import CitiesList from "../cities-list/cities-list";
 import Header from "../header/header";
 import {sorter} from "../../utils/offer-sorter";
 import {getCurrentCity, getCurrentCityOffers} from "../../store/selectors/selectors";
+import {ScreenMarker} from "../../const";
 
 const Main = ({currentCity, currentCityOffers, selectedSortType, onSortTypeChange}) => {
   const mainStyle = currentCityOffers && currentCityOffers.length !== 0 ?
@@ -52,7 +53,7 @@ const Main = ({currentCity, currentCityOffers, selectedSortType, onSortTypeChang
                 <div className="cities__right-section">
                   <section className="cities__map map">
 
-                    <Map offers={sortedOffers}/>
+                    <Map offers={sortedOffers} screenMarker={ScreenMarker.MAIN}/>
 
                   </section>
                 </div>

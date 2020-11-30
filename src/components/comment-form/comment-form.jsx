@@ -33,7 +33,12 @@ const ratingVariants = [
 ];
 
 const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldChange, onCommentFormSubmit}) => {
-  const submitButtonStatus = rating && commentText ? `` : `disabled`;
+  const submitButtonStatus = rating &&
+                             commentText &&
+                             commentText.length >= COMMENT_MIN_LENGTH &&
+                             commentText.length <= COMMENT_MAX_LENGTH ?
+    `` :
+    `disabled`;
 
   return (
     <form
@@ -75,8 +80,6 @@ const CommentForm = ({rating, commentText, onRatingFieldChange, onCommentFieldCh
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        minLength={COMMENT_MIN_LENGTH}
-        maxLength={COMMENT_MAX_LENGTH}
         value={commentText || ``}
       >
       </textarea>

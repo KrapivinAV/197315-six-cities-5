@@ -97,5 +97,5 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
 
 export const addComment = (id, comment, rating) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, {comment, rating})
-    .then((data) => dispatch(loadReviews(data.data)))
+    .then((data) => dispatch(loadReviews(adaptReviews(data.data))))
 );

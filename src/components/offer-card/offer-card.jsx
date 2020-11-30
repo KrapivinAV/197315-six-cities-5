@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
-import {offerTypes, OfferCardStyleSet, AuthorizationStatus} from "../../const";
+import {offerTypes, AuthorizationStatus} from "../../const";
 import {connect} from "react-redux";
 import {changeActiveOfferCard, redirectToRoute} from "../../store/actions";
 import {changeOfferFavoriteStatus} from "../../store/api-actions";
@@ -48,7 +48,7 @@ const OfferCard = ({offer, currentOfferCardId, authorizationStatus, changeActive
     <article
       className={`${ARTICLE} place-card`}
       id={id}
-      onMouseOver={offerCardStyleSet === OfferCardStyleSet.MAIN_SCREEN ? handleCardHover : null}
+      onMouseOver={handleCardHover}
     >
 
       {ARTICLE === `cities__place-card` ? premiumType : null}

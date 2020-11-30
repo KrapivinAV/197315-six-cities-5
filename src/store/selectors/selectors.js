@@ -64,7 +64,7 @@ export const getCurrentReviews = createSelector(
     getReviews,
     (reviews) => {
       return reviews
-      .slice(0, REVIEWS_MAX_QUANTITY)
-      .sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date));
+      .sort((reviewA, reviewB) => new Date(reviewB.date) - new Date(reviewA.date))
+      .slice(0, REVIEWS_MAX_QUANTITY);
     }
 );

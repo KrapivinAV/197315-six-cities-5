@@ -6,7 +6,7 @@ import ReviewsList from "../reviews-list/reviews-list";
 import Map from "../map/map";
 import PropertiesScreenOfferList from "../properties-screen-offer-list/properties-screen-offer-list";
 import withCommentFormState from "../../hocs/with-comment-form-state/with-comment-form-state";
-import {offerTypes, AuthorizationStatus} from "../../const";
+import {offerTypes, AuthorizationStatus, ScreenMarker} from "../../const";
 import {connect} from "react-redux";
 import {redirectToRoute} from "../../store/actions";
 import {addComment, changeOfferFavoriteStatus} from "../../store/api-actions";
@@ -140,7 +140,7 @@ const OfferProperties = ({offer, nearOffers, reviews, authorizationStatus, chang
         </div>
         <section className="property__map map">
 
-          <Map offers={[offer, ...nearOffers]}/>
+          <Map offers={[offer, ...nearOffers]} screenMarker={ScreenMarker.PROPERTIES}/>
 
         </section>
       </section>
