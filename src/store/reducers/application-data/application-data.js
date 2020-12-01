@@ -40,11 +40,6 @@ const applicationData = (state = initialState, action) => {
       return extend(state, {
         updatedOffer: action.payload,
       });
-
-    case ActionType.ADD_NEW_COMMENT:
-      return extend(state, {
-        comment: action.payload,
-      });
   }
 
   return state;

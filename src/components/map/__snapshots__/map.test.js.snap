@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render Map On Main Screen 1`] = `
+<div
+  id="map"
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+/>
+`;
+
+exports[`Render Map On Properties Screen 1`] = `
+<div
+  id="map"
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+/>
+`;

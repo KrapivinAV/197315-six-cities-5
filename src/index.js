@@ -38,4 +38,20 @@ Promise.all([
 
       document.querySelector(`#root`)
   );
+})
+.catch(() => {
+  ReactDOM.render(
+
+      <div style={{
+        position: `absolute`,
+        top: `50%`,
+        left: `50%`,
+        color: `red`,
+        textSize: `100`
+      }}>
+        SERVER ERROR
+      </div>,
+
+      document.querySelector(`#root`)
+  );
 });

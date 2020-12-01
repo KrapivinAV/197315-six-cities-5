@@ -21,7 +21,7 @@ export const adaptOffer = (offer) => {
   delete adaptedOffer.is_favorite;
   delete adaptedOffer.is_premium;
   delete adaptedOffer.max_adults;
-  delete adaptedOffer.host.preview_image;
+  delete adaptedOffer.preview_image;
 
   return adaptedOffer;
 };
