@@ -8,7 +8,7 @@ const Preloader = () => {
       top: `50%`,
       left: `50%`,
       color: `red`,
-      textSize: `50`
+      textSize: `100`
     }}>
       PROCESSING
     </div>

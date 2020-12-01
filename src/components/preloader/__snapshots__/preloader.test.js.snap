@@ -7,7 +7,7 @@ exports[`Render Preloader Render Preloader 1`] = `
       "color": "red",
       "left": "50%",
       "position": "absolute",
-      "textSize": "50",
+      "textSize": "100",
       "top": "50%",
     }
   }

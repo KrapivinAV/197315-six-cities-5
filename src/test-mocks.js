@@ -86,7 +86,7 @@ export const offerFirstCityNotFavoriteNotPremiumHostNotPro = {
 
 export const offerSecondCityIsFavoriteNotPremiumHostNotPro = {
   city: {
-    name: `Paris`,
+    name: `Amsterdam`,
     location: {
       latitude: 48.85661,
       longitude: 2.351499,
