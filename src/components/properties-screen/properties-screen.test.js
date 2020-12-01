@@ -4,7 +4,7 @@ import {PropertiesScreen} from "./properties-screen";
 import {Provider} from "react-redux";
 import {Route, BrowserRouter} from "react-router-dom";
 import configureStore from "redux-mock-store";
-import {offerFirstCityIsFavoriteIsPremiumHostIsPro, offerFirstCityNotFavoriteNotPremiumHostNotPro, REVIEW_FIRST, REVIEW_SECOND} from "../../test-mocks";
+import {OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO, OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO, REVIEW_FIRST, REVIEW_SECOND} from "../../test-mocks";
 
 const noop = () => {};
 
@@ -16,9 +16,9 @@ describe(`Render PropertiesScreen`, () => {
     const mockStore = configureStore([]);
     const store = mockStore({
       DATA: {
-        offer: offerFirstCityIsFavoriteIsPremiumHostIsPro,
+        offer: OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO,
         nearOffers: [
-          offerFirstCityNotFavoriteNotPremiumHostNotPro
+          OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO
         ],
         reviews: [
           REVIEW_FIRST,
@@ -65,9 +65,9 @@ describe(`Render PropertiesScreen`, () => {
     const mockStore = configureStore([]);
     const store = mockStore({
       DATA: {
-        offer: offerFirstCityIsFavoriteIsPremiumHostIsPro,
+        offer: OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO,
         nearOffers: [
-          offerFirstCityNotFavoriteNotPremiumHostNotPro
+          OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO
         ],
         reviews: [
           REVIEW_FIRST,

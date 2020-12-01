@@ -4,7 +4,7 @@ import App from "./app";
 import {Provider} from "react-redux";
 import {Route, BrowserRouter} from "react-router-dom";
 import configureStore from "redux-mock-store";
-import {offerFirstCityIsFavoriteIsPremiumHostIsPro, offerFirstCityNotFavoriteNotPremiumHostNotPro} from "../../test-mocks";
+import {OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO, OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO} from "../../test-mocks";
 
 jest.mock(`../map/map`, () => `Map`);
 
@@ -15,8 +15,8 @@ describe(`Render App`, () => {
     const store = mockStore({
       DATA: {
         offers: [
-          offerFirstCityIsFavoriteIsPremiumHostIsPro,
-          offerFirstCityNotFavoriteNotPremiumHostNotPro,
+          OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO,
+          OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO,
         ],
       },
       STATE: {

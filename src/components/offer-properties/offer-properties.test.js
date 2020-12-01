@@ -5,7 +5,7 @@ import {Provider} from "react-redux";
 import {Route, BrowserRouter} from "react-router-dom";
 import configureStore from "redux-mock-store";
 import {AuthorizationStatus} from "../../const";
-import {offerFirstCityIsFavoriteIsPremiumHostIsPro, offerFirstCityNotFavoriteNotPremiumHostNotPro, REVIEW_FIRST, REVIEW_SECOND} from "../../test-mocks";
+import {OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO, OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO, REVIEW_FIRST, REVIEW_SECOND} from "../../test-mocks";
 
 const noop = () => {};
 
@@ -17,9 +17,9 @@ describe(`Render OfferProperties`, () => {
     const mockStore = configureStore([]);
     const store = mockStore({
       DATA: {
-        offer: offerFirstCityIsFavoriteIsPremiumHostIsPro,
+        offer: OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO,
         nearOffers: [
-          offerFirstCityNotFavoriteNotPremiumHostNotPro
+          OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO
         ],
         reviews: [
           REVIEW_FIRST,
@@ -44,8 +44,8 @@ describe(`Render OfferProperties`, () => {
             <BrowserRouter>
               <Route>
                 <OfferProperties
-                  offer={offerFirstCityIsFavoriteIsPremiumHostIsPro}
-                  nearOffers={[offerFirstCityNotFavoriteNotPremiumHostNotPro]}
+                  offer={OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO}
+                  nearOffers={[OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO]}
                   reviews={[REVIEW_FIRST, REVIEW_SECOND]}
                   authorizationStatus={AuthorizationStatus.AUTH}
                   changeOfferFavoriteStatusAction={noop}
@@ -66,9 +66,9 @@ describe(`Render OfferProperties`, () => {
     const mockStore = configureStore([]);
     const store = mockStore({
       DATA: {
-        offer: offerFirstCityNotFavoriteNotPremiumHostNotPro,
+        offer: OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO,
         nearOffers: [
-          offerFirstCityIsFavoriteIsPremiumHostIsPro
+          OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO
         ],
         reviews: [
           REVIEW_SECOND,
@@ -93,8 +93,8 @@ describe(`Render OfferProperties`, () => {
             <BrowserRouter>
               <Route>
                 <OfferProperties
-                  offer={offerFirstCityNotFavoriteNotPremiumHostNotPro}
-                  nearOffers={[offerFirstCityIsFavoriteIsPremiumHostIsPro]}
+                  offer={OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO}
+                  nearOffers={[OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO]}
                   reviews={[REVIEW_FIRST, REVIEW_SECOND]}
                   authorizationStatus={AuthorizationStatus.NO_AUTH}
                   changeOfferFavoriteStatusAction={noop}

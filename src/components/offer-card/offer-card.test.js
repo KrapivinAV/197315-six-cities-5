@@ -5,7 +5,7 @@ import {Provider} from "react-redux";
 import {Route, BrowserRouter} from "react-router-dom";
 import configureStore from "redux-mock-store";
 import {OfferCardStyleSet, AuthorizationStatus} from "../../const";
-import {offerFirstCityIsFavoriteIsPremiumHostIsPro, offerFirstCityNotFavoriteNotPremiumHostNotPro} from "../../test-mocks";
+import {OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO, OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO} from "../../test-mocks";
 
 const noop = () => {};
 
@@ -21,7 +21,7 @@ describe(`Render OfferCard`, () => {
             <BrowserRouter>
               <Route>
                 <OfferCard
-                  offer={offerFirstCityIsFavoriteIsPremiumHostIsPro}
+                  offer={OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO}
                   currentOfferCardId={1}
                   authorizationStatus={AuthorizationStatus.AUTH}
                   changeActiveOfferCardAction={noop}
@@ -49,7 +49,7 @@ describe(`Render OfferCard`, () => {
             <BrowserRouter>
               <Route>
                 <OfferCard
-                  offer={offerFirstCityNotFavoriteNotPremiumHostNotPro}
+                  offer={OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO}
                   currentOfferCardId={1}
                   authorizationStatus={AuthorizationStatus.AUTH}
                   changeActiveOfferCardAction={noop}
@@ -77,7 +77,7 @@ describe(`Render OfferCard`, () => {
             <BrowserRouter>
               <Route>
                 <OfferCard
-                  offer={offerFirstCityIsFavoriteIsPremiumHostIsPro}
+                  offer={OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO}
                   currentOfferCardId={1}
                   authorizationStatus={AuthorizationStatus.AUTH}
                   changeActiveOfferCardAction={noop}
@@ -105,7 +105,7 @@ describe(`Render OfferCard`, () => {
             <BrowserRouter>
               <Route>
                 <OfferCard
-                  offer={offerFirstCityNotFavoriteNotPremiumHostNotPro}
+                  offer={OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO}
                   currentOfferCardId={1}
                   authorizationStatus={AuthorizationStatus.AUTH}
                   changeActiveOfferCardAction={noop}
@@ -133,7 +133,7 @@ describe(`Render OfferCard`, () => {
             <BrowserRouter>
               <Route>
                 <OfferCard
-                  offer={offerFirstCityIsFavoriteIsPremiumHostIsPro}
+                  offer={OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO}
                   currentOfferCardId={1}
                   authorizationStatus={AuthorizationStatus.AUTH}
                   changeActiveOfferCardAction={noop}
@@ -161,7 +161,7 @@ describe(`Render OfferCard`, () => {
             <BrowserRouter>
               <Route>
                 <OfferCard
-                  offer={offerFirstCityNotFavoriteNotPremiumHostNotPro}
+                  offer={OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO}
                   currentOfferCardId={1}
                   authorizationStatus={AuthorizationStatus.AUTH}
                   changeActiveOfferCardAction={noop}

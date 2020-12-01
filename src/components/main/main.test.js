@@ -4,7 +4,7 @@ import Main from "./main";
 import {Provider} from "react-redux";
 import {Route, BrowserRouter} from "react-router-dom";
 import configureStore from "redux-mock-store";
-import {offerFirstCityIsFavoriteIsPremiumHostIsPro, offerFirstCityNotFavoriteNotPremiumHostNotPro} from "../../test-mocks";
+import {OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO, OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO} from "../../test-mocks";
 
 const SELECTED_SORT_TYPE = `popular`;
 const CURRENT_CITY = `Paris`;
@@ -17,7 +17,7 @@ describe(`Render Main`, () => {
     const mockStore = configureStore([]);
     const store = mockStore({
       DATA: {
-        offers: [offerFirstCityIsFavoriteIsPremiumHostIsPro, offerFirstCityNotFavoriteNotPremiumHostNotPro]
+        offers: [OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO, OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO]
       },
       STATE: {
         currentOfferCardId: `1`,
@@ -38,7 +38,7 @@ describe(`Render Main`, () => {
               <Route>
                 <Main
                   currentCity={CURRENT_CITY}
-                  currentCityOffers={[offerFirstCityIsFavoriteIsPremiumHostIsPro, offerFirstCityNotFavoriteNotPremiumHostNotPro]}
+                  currentCityOffers={[OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO, OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO]}
                   selectedSortType={SELECTED_SORT_TYPE}
                   onSortTypeChange={() => {}}
                 />

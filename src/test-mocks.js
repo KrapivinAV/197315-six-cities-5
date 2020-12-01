@@ -1,4 +1,4 @@
-export const offerFirstCityIsFavoriteIsPremiumHostIsPro = {
+export const OFFER_FIRST_CITY_IS_FAVORITE_IS_PREMIUM_HOST_IS_PRO = {
   city: {
     name: `Paris`,
     location: {
@@ -41,7 +41,7 @@ export const offerFirstCityIsFavoriteIsPremiumHostIsPro = {
   maxAdults: 8
 };
 
-export const offerFirstCityNotFavoriteNotPremiumHostNotPro = {
+export const OFFER_FIRST_CITY_NOT_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO = {
   city: {
     name: `Paris`,
     location: {
@@ -84,7 +84,7 @@ export const offerFirstCityNotFavoriteNotPremiumHostNotPro = {
   maxAdults: 8
 };
 
-export const offerSecondCityIsFavoriteNotPremiumHostNotPro = {
+export const OFFER_SECOND_CITY_IS_FAVORITE_NOT_PREMIUM_HOST_NOT_PRO = {
   city: {
     name: `Amsterdam`,
     location: {
