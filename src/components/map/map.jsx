@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {connect} from "react-redux";
@@ -6,7 +6,7 @@ import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 import {ScreenMarker} from "../../const";
 
-class Map extends Component {
+class Map extends PureComponent {
   constructor(props) {
     super(props);
 

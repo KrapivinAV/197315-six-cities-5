@@ -6,7 +6,7 @@ import ReviewsList from "../reviews-list/reviews-list";
 import Map from "../map/map";
 import PropertiesScreenOfferList from "../properties-screen-offer-list/properties-screen-offer-list";
 import withCommentFormState from "../../hocs/with-comment-form-state/with-comment-form-state";
-import {offerTypes, AuthorizationStatus, ScreenMarker} from "../../const";
+import {OfferType, AuthorizationStatus, ScreenMarker} from "../../const";
 import {connect} from "react-redux";
 import {redirectToRoute} from "../../store/actions";
 import {addComment, changeOfferFavoriteStatus} from "../../store/api-actions";
@@ -91,7 +91,7 @@ const OfferProperties = ({offer, nearOffers, reviews, authorizationStatus, chang
             </div>
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
-                {offerTypes[type]}
+                {OfferType[type.toUpperCase()]}
               </li>
               <li className="property__feature property__feature--bedrooms">
                 {bedrooms} Bedrooms

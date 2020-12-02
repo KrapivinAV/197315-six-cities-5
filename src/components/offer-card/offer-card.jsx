@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PropTypesSet from "../../prop-types-set";
 import {Link} from "react-router-dom";
-import {offerTypes, AuthorizationStatus} from "../../const";
+import {OfferType, AuthorizationStatus} from "../../const";
 import {connect} from "react-redux";
 import {changeActiveOfferCard, redirectToRoute} from "../../store/actions";
 import {changeOfferFavoriteStatus} from "../../store/api-actions";
@@ -86,7 +86,7 @@ const OfferCard = ({offer, currentOfferCardId, authorizationStatus, changeActive
             {title}
           </Link>
         </h2>
-        <p className="place-card__type">{offerTypes[type]}</p>
+        <p className="place-card__type">{OfferType[type.toUpperCase()]}</p>
       </div>
     </article>
   );

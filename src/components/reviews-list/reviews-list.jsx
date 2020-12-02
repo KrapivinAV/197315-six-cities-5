@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import PropTypesSet from "../../prop-types-set";
 import ReviewsItem from "../reviews-item/reviews-item";
 
 const ReviewsList = (props) => {
@@ -19,7 +20,7 @@ const ReviewsList = (props) => {
 };
 
 ReviewsList.propTypes = {
-  offerReviews: PropTypes.array.isRequired,
+  offerReviews: PropTypes.arrayOf(PropTypesSet.review).isRequired,
 };
 
 export default ReviewsList;

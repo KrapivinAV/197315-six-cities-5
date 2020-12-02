@@ -22,11 +22,11 @@ export const OfferCardStyleSet = {
   }
 };
 
-export const offerTypes = {
-  apartment: `Apartment`,
-  room: `Private Room`,
-  house: `House`,
-  hotel: `Hotel`
+export const OfferType = {
+  APARTMENT: `Apartment`,
+  ROOM: `Private Room`,
+  HOUSE: `House`,
+  HOTEL: `Hotel`
 };
 
 export const cities = [
